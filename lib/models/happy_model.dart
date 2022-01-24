@@ -1,12 +1,10 @@
-class HappyBirthdayModel {
+class CongratulationsModel {
   int? id;
   String content;
   int favourite;
 
-  HappyBirthdayModel(
+  CongratulationsModel(
       {required this.id, required this.content, required this.favourite});
-
-  // static String tableName = 'happy';
 
   Map<String, dynamic> toJson() {
     return {
@@ -16,8 +14,8 @@ class HappyBirthdayModel {
     };
   }
 
-  factory HappyBirthdayModel.fromJson(Map<String, dynamic> json) {
-    return HappyBirthdayModel(
+  factory CongratulationsModel.fromJson(Map<String, dynamic> json) {
+    return CongratulationsModel(
       id: json['id'],
       content: json['content'],
       favourite: json['favourite'],

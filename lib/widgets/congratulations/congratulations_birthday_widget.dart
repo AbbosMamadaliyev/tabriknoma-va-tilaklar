@@ -14,30 +14,34 @@ class CongratulationsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // bu appbar title' uchun
     final categories = context.watch<CategoryModelProvider>().categories;
-    final model = context.watch<DbServiceProver>().texts;
+
+    final congratulations = context.watch<DbServiceProver>().congratulations;
 
     var args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    var content = args['content'];
+    var where = args['where'];
     var tableName = args['tableName'];
-    var index = args['index'];
+    var categoryIndex = args['categoryIndex'];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(categories[index].category),
+        title: Text(categories[categoryIndex].category),
       ),
       body: BackgroundCongratulationsPage(
         child: ListView.builder(
             physics: const BouncingScrollPhysics(),
-            itemCount: model.length,
+            itemCount: congratulations.length,
             itemBuilder: (context, id) {
-              var text = model[id];
+              var congratulation = congratulations[id];
               return GestureDetector(
                 onTap: () {
+                  // tabriklar bosilganda provider orqali borib read() qilib keladi
+                  // keyingi oynaga otganda , bosilganini sezib chiqarib beradi contentni
                   context
                       .read<DbServiceProver>()
-                      .getData(where: content, tableName: tableName);
+                      .getData(where: where, tableName: tableName);
 
                   Navigator.of(context).pushNamed(
                     MainNavigationNames.content,
@@ -48,20 +52,36 @@ class CongratulationsWidget extends StatelessWidget {
                   );
                 },
                 child: CustomCardCongratulations(
-                  child: ListTile(
-                    leading: Image.asset(
-                      'assets/images/$index.jpg',
-                      height: 64,
-                      width: 50,
-                    ),
-                    title: Text(
-                      text.content,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios,
-                        color: Colors.white),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Image.asset(
+                          'assets/images/$categoryIndex.jpg',
+                          height: 76,
+                          fit: BoxFit.cover,
+                          width: 64,
+                        ),
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          title: Text(
+                            congratulation.content,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );

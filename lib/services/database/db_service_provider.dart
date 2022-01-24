@@ -7,10 +7,24 @@ class DbServiceProver extends ChangeNotifier {
   final db = DatabaseService.instance;
   String query = '';
 
-  final List<HappyBirthdayModel> _texts = [];
-  List<HappyBirthdayModel> get texts => _texts;
+  final List<CongratulationsModel> _congratulations = [];
+  List<CongratulationsModel> get congratulations {
+    return _congratulations;
+  }
 
-  Future<List<HappyBirthdayModel>> _getText(
+  final List<CongratulationsModel> birthdays = [];
+  final List<CongratulationsModel> families = [];
+  final List<CongratulationsModel> days = [];
+  final List<CongratulationsModel> mart8 = [];
+  final List<CongratulationsModel> ramazans = [];
+  final List<CongratulationsModel> kurbans = [];
+  final List<CongratulationsModel> love = [];
+  final List<CongratulationsModel> friend = [];
+  final List<CongratulationsModel> january14 = [];
+  final List<CongratulationsModel> girlNames = [];
+  final List<CongratulationsModel> teachers = [];
+
+  Future<List<CongratulationsModel>> _getText(
       String query, String where, String tableName) async {
     final database = db.database;
     try {
@@ -22,7 +36,7 @@ class DbServiceProver extends ChangeNotifier {
       );
 
       return List.generate(maps.length, (index) {
-        return HappyBirthdayModel.fromJson(maps[index]);
+        return CongratulationsModel.fromJson(maps[index]);
       });
     } catch (e) {
       print('xatolik: $e');
@@ -38,21 +52,21 @@ class DbServiceProver extends ChangeNotifier {
       );
 
       return List.generate(maps.length, (index) {
-        return HappyBirthdayModel.fromJson(maps[index]);
+        return CongratulationsModel.fromJson(maps[index]);
       });
     }
   }
 
   getData({required String where, required String tableName}) {
     _getText(query, where, tableName).then((value) {
-      _texts.clear();
-      _texts.addAll(value);
+      _congratulations.clear();
+      _congratulations.addAll(value);
       notifyListeners();
     });
   }
 
   //get favourite words, tepadagi getWords bilan birxil yozilishi, faqat sql zapros boshqacha boladi
-  Future<List<HappyBirthdayModel>> getFavouriteWords(
+  Future<List<CongratulationsModel>> _getFavouriteWords(
       String query, String tableName) async {
     final database = await db.database;
 
@@ -62,12 +76,65 @@ class DbServiceProver extends ChangeNotifier {
     );
 
     return List.generate(maps.length, (index) {
-      return HappyBirthdayModel.fromJson(maps[index]);
+      return CongratulationsModel.fromJson(maps[index]);
+    });
+  }
+
+  getFavoriteData(String tableName) {
+    _getFavouriteWords(query, tableName).then((value) {
+      switch (tableName) {
+        case 'birthday':
+          birthdays.clear();
+          birthdays.addAll(value);
+          break;
+        case 'family':
+          families.clear();
+          families.addAll(value);
+          break;
+        case 'day':
+          days.clear();
+          days.addAll(value);
+          break;
+        case 'mart8':
+          mart8.clear();
+          mart8.addAll(value);
+          break;
+        case 'ramazan':
+          ramazans.clear();
+          ramazans.addAll(value);
+          break;
+        case 'kurban':
+          kurbans.clear();
+          kurbans.addAll(value);
+          break;
+        case 'love14':
+          love.clear();
+          love.addAll(value);
+          break;
+        case 'friend':
+          friend.clear();
+          friend.addAll(value);
+          break;
+        case 'january14':
+          january14.clear();
+          january14.addAll(value);
+          break;
+        case 'girl':
+          girlNames.clear();
+          girlNames.addAll(value);
+          break;
+        case 'teacher':
+          teachers.clear();
+          teachers.addAll(value);
+          break;
+      }
+      notifyListeners();
     });
   }
 
 //set favourite words
-  Future<int?> setFavourite(HappyBirthdayModel model, String tableName) async {
+  Future<int?> setFavourite(
+      {required CongratulationsModel model, required String tableName}) async {
     final database = await db.database;
 
     return database.update(

@@ -46,6 +46,10 @@ class CustomAlertDialog extends StatelessWidget {
               ),
             ],
           ),
+          const Divider(),
+          const Text(
+              'Ilovadagi materiallar internet saytlardan olindi. Bu Dastur muallifi , '
+              'ilova ichidagi materiallarga davolik qilmaydi. '),
         ],
       ),
     );

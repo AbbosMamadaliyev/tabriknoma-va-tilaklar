@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabriklar/widgets/home_page/home_page.dart';
+import 'package:tabriklar/widgets/saved_content_page/reading_saved_content.dart';
 import 'package:tabriklar/widgets/saved_content_page/saved_content_page.dart';
 import 'package:tabriklar/widgets/write_content/write_content_page.dart';
 
@@ -12,6 +13,7 @@ abstract class MainNavigationNames {
   static const content = '/content';
   static const favourites = '/favourites';
   static const writing = '/writing';
+  static const readingFavorite = '/reading_favorite';
 }
 
 class MainNavigation {
@@ -24,5 +26,6 @@ class MainNavigation {
     MainNavigationNames.content: (context) => ContentBirthday(),
     MainNavigationNames.favourites: (context) => const SavedContentPage(),
     MainNavigationNames.writing: (context) => WriteContentPage(),
+    MainNavigationNames.readingFavorite: (context) => ReadingSavedContent(),
   };
 }

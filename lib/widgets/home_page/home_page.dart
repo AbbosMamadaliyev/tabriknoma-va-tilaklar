@@ -54,24 +54,24 @@ class _HomePageState extends State<HomePage> {
           child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: dbTables.length,
-              itemBuilder: (context, index) {
-                var table = dbTables[index];
+              itemBuilder: (context, categoryIndex) {
+                // dbTabel bu yerda categoryalar, adashma!!!
+                var table = dbTables[categoryIndex];
                 return GestureDetector(
                   onTap: () {
-                    print('name: ${table.tableName}');
                     context.read<DbServiceProver>().getData(
                         where: table.rowName, tableName: table.tableName);
 
                     Navigator.of(context).pushNamed(
                         MainNavigationNames.congratulations,
                         arguments: {
-                          'content': table.rowName,
+                          'where': table.rowName,
                           'tableName': table.tableName,
-                          'index': index,
+                          'categoryIndex': categoryIndex,
                         });
                   },
                   child: CustomCard(
-                    text: categories[index].category,
+                    text: categories[categoryIndex].category,
                   ),
                 );
               }),

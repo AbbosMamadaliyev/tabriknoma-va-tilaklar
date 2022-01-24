@@ -13,7 +13,7 @@ class CategoryModelProvider extends ChangeNotifier {
     Category(category: 'Dost xaqida to\'rtliklar'),
     Category(category: '14 - yanvar uchun tabriklar'),
     Category(category: 'Qizlar ismiga sherlar'),
-    Category(category: 'O\'qituvhcilar kuniga sherlar'),
+    Category(category: 'O\'qituvchilar kuniga sherlar'),
   ];
 
   List<Category> get categories => _categories;

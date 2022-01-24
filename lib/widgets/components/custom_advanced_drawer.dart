@@ -26,12 +26,6 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
       animateChildDecoration: false,
       animationDuration: const Duration(milliseconds: 500),
       controller: widget.advancedDrawerController,
-      childDecoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-            // bottomLeft: Radius.circular(16),
-            // topLeft: Radius.circular(16),
-            ),
-      ),
       child: widget.child,
       drawer: SafeArea(
         child: Container(
@@ -48,8 +42,10 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
                   'Saqlanganlar',
                   Icons.favorite,
                   Colors.redAccent,
-                  () => Navigator.of(context)
-                      .pushNamed(MainNavigationNames.favourites),
+                  () {
+                    Navigator.of(context)
+                        .pushNamed(MainNavigationNames.favourites);
+                  },
                 ),
                 _buildListTile(
                   'O\'zim yozaman',

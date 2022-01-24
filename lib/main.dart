@@ -32,12 +32,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Tabriklar',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           elevation: 0,
-          color: Color(0xff0d8e86),
+          color: Color(0xff378842),
         ),
       ),
       initialRoute: mainNavigation.initialRoute(),
