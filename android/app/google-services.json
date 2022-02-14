@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "102504064630",
+    "project_id": "tabrik-va-tilaklar",
+    "storage_bucket": "tabrik-va-tilaklar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102504064630:android:523887076b966bc347a157",
+        "android_client_info": {
+          "package_name": "com.uz.m.abbos.tabriklar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102504064630-ah6epk321nhk9vci7k4v847vvq86d3dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy-zwirBZvbOb5gyb3rhgTExQQPCkp9Uo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102504064630-ah6epk321nhk9vci7k4v847vvq86d3dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

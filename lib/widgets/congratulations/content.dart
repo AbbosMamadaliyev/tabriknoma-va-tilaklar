@@ -74,7 +74,11 @@ class _ContentBirthdayState extends State<ContentBirthday> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
             child: Text(
               congratulation.content,
-              style: const TextStyle(height: 1.3, fontSize: 18),
+              style: const TextStyle(
+                height: 1.3,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
