@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:tabriklar/services/get_data_from_firebase/get_images_provider.dart';
+import 'package:tabriklar/view_models/get_data_from_firebase/get_images_provider.dart';
 
 class PhotosPage extends StatefulWidget {
   const PhotosPage({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tabriklar/models/category_models.dart';
+import 'package:tabriklar/domain/models/category_models.dart';
 
 class CategoryModelProvider extends ChangeNotifier {
   final List<Category> _categories = [

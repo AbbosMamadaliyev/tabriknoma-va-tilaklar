@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:tabriklar/main_navigation.dart';
-import 'package:tabriklar/services/get_data_from_firebase/get_images_provider.dart';
+import 'package:tabriklar/view_models/get_data_from_firebase/get_images_provider.dart';
 
 class CategorPhotosWidget extends StatefulWidget {
   const CategorPhotosWidget({Key? key}) : super(key: key);

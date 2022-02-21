@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tabriklar/main_navigation.dart';
-import 'package:tabriklar/services/categor_model_provider/categor_model_provider.dart';
-import 'package:tabriklar/services/database/db_service_provider.dart';
+import 'package:tabriklar/view_models/categor_model_provider/categor_model_provider.dart';
+import 'package:tabriklar/view_models/database/db_service_provider.dart';
 import 'package:tabriklar/widgets/components/background_congratulations_page.dart';
 import 'package:tabriklar/widgets/components/custom_card_songratulations.dart';
 

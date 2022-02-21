@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tabriklar/models/happy_model.dart';
-import 'package:tabriklar/services/database/db_service.dart';
+import 'package:tabriklar/domain/dataproviders/local_dataprovider.dart';
+import 'package:tabriklar/domain/models/happy_model.dart';
 
 class DbServiceProver extends ChangeNotifier {
-  final db = DatabaseService.instance;
+  final db = LocalDataProvider.instance;
   String query = '';
 
   final List<CongratulationsModel> _congratulations = [];

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tabriklar/domain/models/happy_model.dart';
 import 'package:tabriklar/main_navigation.dart';
-import 'package:tabriklar/models/happy_model.dart';
-import 'package:tabriklar/services/database/db_service_provider.dart';
+import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
 class SavedContentPage extends StatefulWidget {
   const SavedContentPage({Key? key}) : super(key: key);

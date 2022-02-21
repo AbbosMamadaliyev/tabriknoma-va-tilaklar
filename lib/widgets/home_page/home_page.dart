@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 import 'package:tabriklar/main_navigation.dart';
-import 'package:tabriklar/services/categor_model_provider/categor_model_provider.dart';
-import 'package:tabriklar/services/database/db_service_provider.dart';
-import 'package:tabriklar/services/db_table_model_provider/db_table_model_provider.dart';
+import 'package:tabriklar/view_models/categor_model_provider/categor_model_provider.dart';
+import 'package:tabriklar/view_models/database/db_service_provider.dart';
+import 'package:tabriklar/view_models/db_table_model_provider/db_table_model_provider.dart';
 
 import '../components/custom_card.dart';
 

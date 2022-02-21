@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tabriklar/models/db_table_model.dart';
+import 'package:tabriklar/domain/models/db_table_model.dart';
 
 class DbTableModelProvider extends ChangeNotifier {
   final List<DbTableModel> _dbTables = [

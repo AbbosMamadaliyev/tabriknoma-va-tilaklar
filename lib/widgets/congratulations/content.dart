@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 // ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tabriklar/models/happy_model.dart';
-import 'package:tabriklar/services/database/db_service_provider.dart';
+import 'package:tabriklar/domain/models/happy_model.dart';
+import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
 // ignore: must_be_immutable
 class ContentBirthday extends StatefulWidget {

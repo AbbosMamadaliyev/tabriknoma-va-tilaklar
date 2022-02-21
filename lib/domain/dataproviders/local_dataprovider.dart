@@ -1,20 +1,20 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseService extends ChangeNotifier {
-  DatabaseService._();
+class LocalDataProvider {
+  LocalDataProvider._();
 
   static const databaseName = 'happy.db';
   static const databaseVersion = 1;
 
-  DatabaseService._privateConstructor();
+  LocalDataProvider._privateConstructor();
 
-  static final DatabaseService instance = DatabaseService._privateConstructor();
+  static final LocalDataProvider instance =
+      LocalDataProvider._privateConstructor();
 
   static Database? _database;
 
