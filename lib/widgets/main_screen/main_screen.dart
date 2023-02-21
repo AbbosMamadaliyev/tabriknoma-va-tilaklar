@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabriklar/widgets/components/background_home_page.dart';
 import 'package:tabriklar/widgets/components/custom_advanced_drawer.dart';
 import 'package:tabriklar/widgets/home_page/home_page.dart';
@@ -34,10 +35,10 @@ class _MainScreenState extends State<MainScreen> {
             ),
             onPressed: _handleMuneButtonPressed,
           ),
-          title: const Text(
+          title: Text(
             'Tabrik va tilaklar',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -60,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
         Icon(Icons.photo_library_outlined, color: Colors.white),
       ],
       index: 0,
-      height: 50,
+      height: 56.h,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 600),
       color: const Color(0xff1c901e),
@@ -70,6 +71,7 @@ class _MainScreenState extends State<MainScreen> {
         setState(() {
           sectionIndex = index;
         });
+        print('ss: $sectionIndex');
       },
     );
   }

@@ -8,12 +8,9 @@ class WriteContentPage extends StatelessWidget {
   String _textLink = '';
 
   void _onShareAppLink(BuildContext context) async {
-    print(1);
     _textLink = _controller.text;
     if (_textLink.isNotEmpty) {
-      print('text : ${_textLink}');
       await Share.share(_textLink);
-      print(3);
     } else {
       const snackBar = SnackBar(
         content: Text('Iltimos matn kiriting!'),

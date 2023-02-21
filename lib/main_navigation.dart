@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tabriklar/my_app.dart';
 import 'package:tabriklar/widgets/main_screen/main_screen.dart';
+import 'package:tabriklar/widgets/no_connection.dart';
 import 'package:tabriklar/widgets/photos_page/category_photos.dart';
 import 'package:tabriklar/widgets/photos_page/photos_page.dart';
 import 'package:tabriklar/widgets/saved_content_page/reading_saved_content.dart';
@@ -19,13 +21,18 @@ abstract class MainNavigationNames {
   static const readingFavorite = '/reading_favorite';
   static const photos = '/photos';
   static const categoryPhotos = '/categoryPhotos';
+  static const noConnection = '/noConnection';
+  static const myApp = '/myApp';
 }
 
 class MainNavigation {
-  String initialRoute() => MainNavigationNames.mainScreen;
+  String initialRoute(bool connectivityX) => connectivityX
+      ? MainNavigationNames.mainScreen
+      : MainNavigationNames.noConnection;
 
   final routes = <String, Widget Function(BuildContext)>{
     MainNavigationNames.mainScreen: (context) => const MainScreen(),
+    MainNavigationNames.noConnection: (context) => const NoConnection(),
     MainNavigationNames.congratulations: (context) =>
         const CongratulationsWidget(),
     MainNavigationNames.content: (context) => ContentBirthday(),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/view_models/categor_model_provider/categor_model_provider.dart';
@@ -55,14 +56,14 @@ class CongratulationsWidget extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
                         child: Image.asset(
                           'assets/images/$categoryIndex.jpg',
-                          height: 76,
+                          height: 76.h,
                           fit: BoxFit.cover,
-                          width: 64,
+                          width: 64.w,
                         ),
                       ),
                       Expanded(
@@ -71,8 +72,8 @@ class CongratulationsWidget extends StatelessWidget {
                             congratulation.content,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 16,
+                            style: TextStyle(
+                              fontSize: 16.sp,
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
                             ),

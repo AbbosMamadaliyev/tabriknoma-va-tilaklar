@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/src/provider.dart';
 import 'package:tabriklar/view_models/get_data_from_firebase/get_images_provider.dart';
 
@@ -41,7 +42,7 @@ class _PhotosPageState extends State<PhotosPage> {
                             : Image.network(image),
                         InkWell(
                           child: SizedBox(
-                            height: 64,
+                            height: 64.h,
                             width: double.infinity,
                             child: IconButton(
                               icon: isActiveBtn[index]

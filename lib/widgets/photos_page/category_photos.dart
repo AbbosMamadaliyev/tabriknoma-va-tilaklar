@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/src/provider.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/view_models/get_data_from_firebase/get_images_provider.dart';
@@ -17,6 +18,18 @@ class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
   }
 
   List<String> imgs = ['0', 'juma1', 'new_year'];
+  bool startAnimation = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        startAnimation = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +40,21 @@ class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
           itemCount: 3,
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+              padding: EdgeInsets.only(top: 16.h),
               child: InkWell(
                 onTap: () {
                   context.read<ImageListProvider>().getDataFromRtDb(index + 1);
                   Navigator.of(context).pushNamed(MainNavigationNames.photos);
                 },
-                child: Container(
-                  height: 150,
-                  width: double.infinity,
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: (300 + index * 100)),
+                  transform: Matrix4.translationValues(
+                      startAnimation ? 0 : 340.w, 0, 0),
+                  curve: Curves.easeInOut,
+                  height: 156.h,
+                  width: 340.w,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(22),
+                    borderRadius: BorderRadius.circular(22.r),
                     image: DecorationImage(
                       image: AssetImage('assets/images/${imgs[index]}.jpg'),
                       fit: BoxFit.cover,
@@ -57,7 +74,7 @@ class CustomChildContainerGradient extends StatelessWidget {
   CustomChildContainerGradient({Key? key, required this.index})
       : super(key: key);
 
-  List<String> categories = [
+  final List<String> categories = [
     'Tug\'ulgan kun tabriklari rasmda',
     'Juma ayyomi tabriklari',
     'Aralash tabrik va tilaklar'
@@ -67,9 +84,9 @@ class CustomChildContainerGradient extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.bottomLeft,
-      padding: const EdgeInsets.only(left: 24, bottom: 16),
+      padding: EdgeInsets.only(left: 24.w, bottom: 16.h),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(22.r),
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -81,9 +98,9 @@ class CustomChildContainerGradient extends StatelessWidget {
       ),
       child: Text(
         categories[index],
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white,
-          fontSize: 18,
+          fontSize: 18.sp,
           fontWeight: FontWeight.w600,
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
 import 'package:tabriklar/main_navigation.dart';
@@ -17,7 +18,11 @@ class _SavedContentPageState extends State<SavedContentPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
+  void getData() {
     context.read<DbServiceProver>().getFavoriteData('day');
     context.read<DbServiceProver>().getFavoriteData('birthday');
     context.read<DbServiceProver>().getFavoriteData('family');
@@ -29,12 +34,9 @@ class _SavedContentPageState extends State<SavedContentPage> {
     context.read<DbServiceProver>().getFavoriteData('january14');
     context.read<DbServiceProver>().getFavoriteData('girl');
     context.read<DbServiceProver>().getFavoriteData('teacher');
-
-    super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void addToList() {
     favoriteCongratulations.clear();
     favoriteCongratulations.addAll(context.watch<DbServiceProver>().days);
     favoriteCongratulations.addAll(context.watch<DbServiceProver>().families);
@@ -47,6 +49,11 @@ class _SavedContentPageState extends State<SavedContentPage> {
     favoriteCongratulations.addAll(context.watch<DbServiceProver>().january14);
     favoriteCongratulations.addAll(context.watch<DbServiceProver>().girlNames);
     favoriteCongratulations.addAll(context.watch<DbServiceProver>().teachers);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    addToList();
 
     return Scaffold(
       appBar: AppBar(
@@ -80,8 +87,8 @@ class _SavedContentPageState extends State<SavedContentPage> {
                     title: Text(
                       favoriteCongratulations[index].content,
                       maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

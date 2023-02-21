@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
@@ -27,10 +28,10 @@ class _ReadingSavedContentState extends State<ReadingSavedContent> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
           child: Text(
             congratulation.content,
-            style: const TextStyle(height: 1.3, fontSize: 18),
+            style: TextStyle(height: 1.3, fontSize: 18.sp),
           ),
         ),
       ),

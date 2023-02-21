@@ -22,7 +22,7 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
   Widget build(BuildContext context) {
     return AdvancedDrawer(
       animationCurve: Curves.easeInOut,
-      backdropColor: Color(0xff1e027a),
+      backdropColor: const Color(0xff1e027a),
       animateChildDecoration: false,
       animationDuration: const Duration(milliseconds: 500),
       controller: widget.advancedDrawerController,

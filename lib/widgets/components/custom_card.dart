@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomCard extends StatelessWidget {
   final String text;
@@ -13,15 +14,16 @@ class CustomCard extends StatelessWidget {
       child: Card(
         color: const Color(0xff1e027a).withOpacity(0.7),
         elevation: 6,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
         child: Row(
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
               width: 6,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 color: const Color(0xff1ece20),
               ),
             ),
@@ -29,8 +31,8 @@ class CustomCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   text,
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
@@ -38,10 +40,10 @@ class CustomCard extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
               width: 6,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 color: const Color(0xff1ece20),
               ),
             ),

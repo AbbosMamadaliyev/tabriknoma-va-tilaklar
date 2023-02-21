@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-// ignore: implementation_imports
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/src/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
 import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
-// ignore: must_be_immutable
 class ContentBirthday extends StatefulWidget {
   ContentBirthday({Key? key}) : super(key: key);
 
@@ -71,12 +70,12 @@ class _ContentBirthdayState extends State<ContentBirthday> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
             child: Text(
               congratulation.content,
-              style: const TextStyle(
+              style: TextStyle(
                 height: 1.3,
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
