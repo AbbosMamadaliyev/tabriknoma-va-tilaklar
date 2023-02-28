@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logging/logging.dart';
 
 import '../../domain/service/connectivity.dart';
@@ -20,6 +21,7 @@ class AppInit {
 
   static Future<void> appInitialized() async {
     WidgetsFlutterBinding.ensureInitialized();
+    MobileAds.instance.initialize();
     await Firebase.initializeApp();
 
     /// Device Orientation

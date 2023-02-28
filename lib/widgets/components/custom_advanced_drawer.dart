@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:tabriklar/main_navigation.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'custom_alert_dialog.dart';
 
@@ -58,8 +59,17 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
                     () {
                   _showDialog();
                 }),
-                _buildListTile('Dasturni baholash', Icons.star,
-                    Colors.yellowAccent, () {}),
+                _buildListTile(
+                  'Dasturni baholash',
+                  Icons.star,
+                  Colors.yellowAccent,
+                  () {
+                    final url = Uri.parse(
+                        'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar');
+
+                    launchUrl(url);
+                  },
+                ),
                 _buildListTile(
                   'Dasturdan chiqish',
                   Icons.logout,

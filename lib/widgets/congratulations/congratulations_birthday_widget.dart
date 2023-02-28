@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/view_models/categor_model_provider/categor_model_provider.dart';
@@ -8,10 +9,43 @@ import 'package:tabriklar/view_models/database/db_service_provider.dart';
 import 'package:tabriklar/widgets/components/background_congratulations_page.dart';
 import 'package:tabriklar/widgets/components/custom_card_songratulations.dart';
 
-class CongratulationsWidget extends StatelessWidget {
+import '../../domain/service/ad_helper.dart';
+
+class CongratulationsWidget extends StatefulWidget {
   const CongratulationsWidget({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<CongratulationsWidget> createState() => _CongratulationsWidgetState();
+}
+
+class _CongratulationsWidgetState extends State<CongratulationsWidget> {
+  BannerAd? _bannerAd;
+  InterstitialAd? _interstitialAd;
+
+  @override
+  void initState() {
+    super.initState();
+    loadInterstitialAd();
+
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          _bannerAd = ad as BannerAd?;
+          setState(() {});
+          print('_bannerAd: $ad');
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+    ).load();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,62 +65,110 @@ class CongratulationsWidget extends StatelessWidget {
         title: Text(categories[categoryIndex].category),
       ),
       body: BackgroundCongratulationsPage(
-        child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: congratulations.length,
-            itemBuilder: (context, id) {
-              var congratulation = congratulations[id];
-              return GestureDetector(
-                onTap: () {
-                  // tabriklar bosilganda provider orqali borib read() qilib keladi
-                  // keyingi oynaga otganda , bosilganini sezib chiqarib beradi contentni
-                  context
-                      .read<DbServiceProver>()
-                      .getData(where: where, tableName: tableName);
+        child: Stack(
+          children: [
+            ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: congratulations.length,
+                itemBuilder: (context, id) {
+                  var congratulation = congratulations[id];
+                  return GestureDetector(
+                    onTap: () {
+                      // tabriklar bosilganda provider orqali borib read() qilib keladi
+                      // keyingi oynaga otganda , bosilganini sezib chiqarib beradi contentni
+                      context
+                          .read<DbServiceProver>()
+                          .getData(where: where, tableName: tableName);
 
-                  Navigator.of(context).pushNamed(
-                    MainNavigationNames.content,
-                    arguments: {
-                      'id': id,
-                      'tableName': tableName,
+                      if (_interstitialAd != null) {
+                        _interstitialAd!.fullScreenContentCallback =
+                            FullScreenContentCallback(
+                          onAdDismissedFullScreenContent: (ad) {
+                            Navigator.of(context).pushNamed(
+                              MainNavigationNames.content,
+                              arguments: {
+                                'id': id,
+                                'tableName': tableName,
+                              },
+                            );
+                          },
+                        );
+                        _interstitialAd?.show();
+                        _interstitialAd = null;
+                      } else {
+                        Navigator.of(context).pushNamed(
+                          MainNavigationNames.content,
+                          arguments: {
+                            'id': id,
+                            'tableName': tableName,
+                          },
+                        );
+                      }
                     },
-                  );
-                },
-                child: CustomCardCongratulations(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(width: 8.w),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
-                        child: Image.asset(
-                          'assets/images/$categoryIndex.jpg',
-                          height: 76.h,
-                          fit: BoxFit.cover,
-                          width: 64.w,
-                        ),
-                      ),
-                      Expanded(
-                        child: ListTile(
-                          title: Text(
-                            congratulation.content,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                    child: CustomCardCongratulations(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(width: 8.w),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8.h),
+                            child: Image.asset(
+                              'assets/images/$categoryIndex.jpg',
+                              height: 76.h,
+                              fit: BoxFit.cover,
+                              width: 64.w,
                             ),
                           ),
-                          trailing: const Icon(Icons.arrow_forward_ios,
-                              color: Colors.white),
-                        ),
+                          Expanded(
+                            child: ListTile(
+                              title: Text(
+                                congratulation.content,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            }),
+                    ),
+                  );
+                }),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _bannerAd == null
+                  ? Container()
+                  : SizedBox(
+                      height: 52.h,
+                      width: 1.sw,
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          setState(() {
+            _interstitialAd = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+        },
       ),
     );
   }
