@@ -54,8 +54,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
 
     final congratulations = context.watch<DbServiceProver>().congratulations;
 
-    var args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    var args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     var where = args['where'];
     var tableName = args['tableName'];
     var categoryIndex = args['categoryIndex'];
@@ -76,13 +75,10 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
                     onTap: () {
                       // tabriklar bosilganda provider orqali borib read() qilib keladi
                       // keyingi oynaga otganda , bosilganini sezib chiqarib beradi contentni
-                      context
-                          .read<DbServiceProver>()
-                          .getData(where: where, tableName: tableName);
+                      context.read<DbServiceProver>().getData(where: where, tableName: tableName);
 
                       if (_interstitialAd != null) {
-                        _interstitialAd!.fullScreenContentCallback =
-                            FullScreenContentCallback(
+                        _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
                           onAdDismissedFullScreenContent: (ad) {
                             Navigator.of(context).pushNamed(
                               MainNavigationNames.content,
@@ -131,8 +127,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              trailing: const Icon(Icons.arrow_forward_ios,
-                                  color: Colors.white),
+                              trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white),
                             ),
                           ),
                         ],

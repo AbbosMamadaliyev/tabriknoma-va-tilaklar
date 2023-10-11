@@ -24,8 +24,7 @@ class DbServiceProver extends ChangeNotifier {
   final List<CongratulationsModel> girlNames = [];
   final List<CongratulationsModel> teachers = [];
 
-  Future<List<CongratulationsModel>> _getText(
-      String query, String where, String tableName) async {
+  Future<List<CongratulationsModel>> _getText(String query, String where, String tableName) async {
     final database = db.database;
     try {
       final db = await database;
@@ -61,13 +60,14 @@ class DbServiceProver extends ChangeNotifier {
     _getText(query, where, tableName).then((value) {
       _congratulations.clear();
       _congratulations.addAll(value);
+
+      _congratulations.shuffle();
       notifyListeners();
     });
   }
 
   //get favourite words, tepadagi getWords bilan birxil yozilishi, faqat sql zapros boshqacha boladi
-  Future<List<CongratulationsModel>> _getFavouriteWords(
-      String query, String tableName) async {
+  Future<List<CongratulationsModel>> _getFavouriteWords(String query, String tableName) async {
     final database = await db.database;
 
     final List<Map<String, dynamic>> maps = await database.rawQuery(
@@ -133,8 +133,7 @@ class DbServiceProver extends ChangeNotifier {
   }
 
 //set favourite words
-  Future<int?> setFavourite(
-      {required CongratulationsModel model, required String tableName}) async {
+  Future<int?> setFavourite({required CongratulationsModel model, required String tableName}) async {
     final database = await db.database;
 
     return database.update(

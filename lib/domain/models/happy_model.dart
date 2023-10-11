@@ -3,8 +3,7 @@ class CongratulationsModel {
   String content;
   int favourite;
 
-  CongratulationsModel(
-      {required this.id, required this.content, required this.favourite});
+  CongratulationsModel({required this.id, required this.content, required this.favourite});
 
   Map<String, dynamic> toJson() {
     return {
@@ -20,5 +19,10 @@ class CongratulationsModel {
       content: json['content'],
       favourite: json['favourite'],
     );
+  }
+
+  @override
+  String toString() {
+    return 'CongratulationsModel{id: $id, content: $content, favourite: $favourite}';
   }
 }
