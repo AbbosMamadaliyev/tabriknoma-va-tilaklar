@@ -40,13 +40,13 @@ class ImageListProvider extends ChangeNotifier {
         break;
     }
     try {
-      _isLoading = false;
+      _isLoading = true;
       notifyListeners();
       dataBase.child(category).onValue.listen((event) {
         var list = event.snapshot.value as List;
         _imageLinkList = list;
-        _isActiveBtn =
-            List.filled(_imageLinkList.length, false, growable: true);
+        _imageLinkList.shuffle();
+        _isActiveBtn = List.filled(_imageLinkList.length, false, growable: true);
         _isLoading = false;
         notifyListeners();
       });
