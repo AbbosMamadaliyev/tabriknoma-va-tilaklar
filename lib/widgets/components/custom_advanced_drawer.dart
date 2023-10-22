@@ -10,9 +10,7 @@ class CustomAdvancedDrawer extends StatefulWidget {
   final Widget child;
   final AdvancedDrawerController advancedDrawerController;
 
-  const CustomAdvancedDrawer(
-      {Key? key, required this.child, required this.advancedDrawerController})
-      : super(key: key);
+  const CustomAdvancedDrawer({Key? key, required this.child, required this.advancedDrawerController}) : super(key: key);
 
   @override
   _CustomAdvancedDrawerState createState() => _CustomAdvancedDrawerState();
@@ -44,19 +42,16 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
                   Icons.favorite,
                   Colors.redAccent,
                   () {
-                    Navigator.of(context)
-                        .pushNamed(MainNavigationNames.favourites);
+                    Navigator.of(context).pushNamed(MainNavigationNames.favourites);
                   },
                 ),
                 _buildListTile(
                   'O\'zim yozaman',
                   Icons.edit,
                   Colors.green,
-                  () => Navigator.of(context)
-                      .pushNamed(MainNavigationNames.writing),
+                  () => Navigator.of(context).pushNamed(MainNavigationNames.writing),
                 ),
-                _buildListTile('Dastur haqida', Icons.info, Colors.greenAccent,
-                    () {
+                _buildListTile('Dastur haqida', Icons.info, Colors.greenAccent, () {
                   _showDialog();
                 }),
                 _buildListTile(
@@ -64,10 +59,10 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
                   Icons.star,
                   Colors.yellowAccent,
                   () {
-                    final url = Uri.parse(
-                        'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar');
+                    final url =
+                        Uri.parse('https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar');
 
-                    launchUrl(url);
+                    launchUrl(url, mode: LaunchMode.externalApplication);
                   },
                 ),
                 _buildListTile(
@@ -84,8 +79,7 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
     );
   }
 
-  ListTile _buildListTile(
-      String title, IconData icon, Color color, void Function() func) {
+  ListTile _buildListTile(String title, IconData icon, Color color, void Function() func) {
     return ListTile(
       onTap: func,
       leading: Icon(icon, color: color),

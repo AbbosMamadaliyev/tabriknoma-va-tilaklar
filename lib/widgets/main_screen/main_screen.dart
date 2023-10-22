@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+// import 'package:app_version_update/app_version_update.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -25,6 +28,29 @@ class _MainScreenState extends State<MainScreen> {
     _advancedDrawerController.showDrawer();
   }
 
+  // Future<void> checkerUpdate() async {
+  //   const playStoreId = 'com.mamadaliyev.abbos.tabriklar'; // If this value is null, its packagename will be considered
+  //   const country = 'uz'; // If this value is null 'us' will be the default value
+  //   await AppVersionUpdate.checkForUpdates(playStoreId: playStoreId, country: country).then((data) async {
+  //     log('data.storeVersion: ${data.storeVersion}');
+  //     log('data.storeUrl: ${data.storeUrl}');
+  //     if (data.canUpdate!) {
+  //       log('can updatteeee');
+  //       AppVersionUpdate.showAlertUpdate();
+  //
+  //       // showModalBottomSheet(
+  //       //     useRootNavigator: true,
+  //       //     isDismissible: false,
+  //       //     enableDrag: false,
+  //       //     context: context,
+  //       //     backgroundColor: Colors.transparent,
+  //       //     builder: (context) {
+  //       //       return UpdateBottomSheet(url: data.storeUrl!);
+  //       //     });
+  //     }
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return CustomAdvancedDrawer(
@@ -48,9 +74,7 @@ class _MainScreenState extends State<MainScreen> {
           centerTitle: true,
         ),
         body: BackgroundHomePage(
-          child: sectionIndex == 0
-              ? const HomePageBody()
-              : const CategorPhotosWidget(),
+          child: sectionIndex == 0 ? const HomePageBody() : const CategorPhotosWidget(),
         ),
         bottomNavigationBar: customNavigationBar(),
       ),

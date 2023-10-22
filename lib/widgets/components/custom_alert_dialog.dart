@@ -12,11 +12,9 @@ class CustomAlertDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-              '  Bu dsaturda eng sara tabrik va tilaklar, sherlar jamlangan. '
+          const Text('  Bu dsaturda eng sara tabrik va tilaklar, sherlar jamlangan. '
               'Tabriklarni yaqinlaringizga jo\'natishingiz mumkin.'),
-          const Text(
-              '\n  Agar dastur sizga yoqgan bo\'lsa baholang va do\'stlaringizga ulashing.'),
+          const Text('\n  Agar dastur sizga yoqgan bo\'lsa baholang va do\'stlaringizga ulashing.'),
           const SizedBox(height: 4),
           const Divider(),
           Row(
@@ -26,10 +24,10 @@ class CustomAlertDialog extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {
-                      final url = Uri.parse(
-                          'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar');
+                      final url =
+                          Uri.parse('https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar');
 
-                      launchUrl(url);
+                      launchUrl(url, mode: LaunchMode.externalApplication);
                     },
                     icon: const Icon(
                       Icons.star,
@@ -59,8 +57,7 @@ class CustomAlertDialog extends StatelessWidget {
             ],
           ),
           const Divider(),
-          const Text(
-              'Ilovadagi materiallar internet saytlardan olindi. Bu Dastur muallifi , '
+          const Text('Ilovadagi materiallar internet saytlardan olindi. Bu Dastur muallifi , '
               'ilova ichidagi materiallarga davolik qilmaydi. '),
         ],
       ),
