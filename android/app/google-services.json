@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "102504064630-216ndbjlb4r959ksvu83rfl39j5hc4pk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mamadaliyev.abbos.tabriklar",
+            "certificate_hash": "24a34c0894c7e5f42eeba29af6bba053725fc5d0"
+          }
+        },
+        {
           "client_id": "102504064630-ah6epk321nhk9vci7k4v847vvq86d3dp.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -32,37 +40,9 @@
               "client_type": 3
             }
           ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:102504064630:android:523887076b966bc347a157",
-        "android_client_info": {
-          "package_name": "com.uz.m.abbos.tabriklar"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "102504064630-ah6epk321nhk9vci7k4v847vvq86d3dp.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAy-zwirBZvbOb5gyb3rhgTExQQPCkp9Uo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "102504064630-ah6epk321nhk9vci7k4v847vvq86d3dp.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
+      "admob_app_id": "ca-app-pub-8830329988183040~5373183352"
     }
   ],
   "configuration_version": "1"

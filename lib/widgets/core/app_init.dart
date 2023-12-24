@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logging/logging.dart';
+import 'package:tabriklar/firebase_options.dart';
 
 import '../../domain/service/connectivity.dart';
 
@@ -21,12 +22,13 @@ class AppInit {
 
   static Future<void> appInitialized() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     MobileAds.instance.initialize();
-    await Firebase.initializeApp();
 
     /// Device Orientation
-    await SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     _setupLogging();
     configLoading();
   }
