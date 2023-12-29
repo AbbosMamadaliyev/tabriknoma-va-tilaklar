@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -34,12 +36,14 @@ class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
       });
     });
 
-    _bannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: AdHelper.listener,
-    )..load();
+    if (Platform.isAndroid) {
+      _bannerAd = BannerAd(
+        adUnitId: AdHelper.bannerAdUnitId,
+        request: const AdRequest(),
+        size: AdSize.banner,
+        listener: AdHelper.listener,
+      )..load();
+    }
   }
 
   @override
@@ -56,16 +60,12 @@ class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
                   padding: EdgeInsets.only(top: 16.h),
                   child: InkWell(
                     onTap: () {
-                      context
-                          .read<ImageListProvider>()
-                          .getDataFromRtDb(index + 1);
-                      Navigator.of(context)
-                          .pushNamed(MainNavigationNames.photos);
+                      context.read<ImageListProvider>().getDataFromRtDb(index + 1);
+                      Navigator.of(context).pushNamed(MainNavigationNames.photos);
                     },
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: (300 + index * 100)),
-                      transform: Matrix4.translationValues(
-                          startAnimation ? 0 : 340.w, 0, 0),
+                      transform: Matrix4.translationValues(startAnimation ? 0 : 340.w, 0, 0),
                       curve: Curves.easeInOut,
                       height: 156.h,
                       width: 340.w,
@@ -100,8 +100,7 @@ class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
 class CustomChildContainerGradient extends StatelessWidget {
   final int index;
 
-  CustomChildContainerGradient({Key? key, required this.index})
-      : super(key: key);
+  CustomChildContainerGradient({Key? key, required this.index}) : super(key: key);
 
   final List<String> categories = [
     'Tug\'ulgan kun tabriklari rasmda',

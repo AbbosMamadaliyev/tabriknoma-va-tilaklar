@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,24 +29,27 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
   @override
   void initState() {
     super.initState();
-    loadInterstitialAd();
 
-    BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          _bannerAd = ad as BannerAd?;
-          setState(() {});
-          print('_bannerAd: $ad');
-        },
-        onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
-          ad.dispose();
-        },
-      ),
-    ).load();
+    if (Platform.isAndroid) {
+      loadInterstitialAd();
+
+      BannerAd(
+        adUnitId: AdHelper.bannerAdUnitId,
+        request: const AdRequest(),
+        size: AdSize.banner,
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            _bannerAd = ad as BannerAd?;
+            setState(() {});
+            print('_bannerAd: $ad');
+          },
+          onAdFailedToLoad: (ad, err) {
+            print('Failed to load a banner ad: ${err.message}');
+            ad.dispose();
+          },
+        ),
+      ).load();
+    }
   }
 
   @override

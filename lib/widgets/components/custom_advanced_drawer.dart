@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'custom_alert_dialog.dart';
 
@@ -54,23 +57,23 @@ class _CustomAdvancedDrawerState extends State<CustomAdvancedDrawer> {
                 _buildListTile('Dastur haqida', Icons.info, Colors.greenAccent, () {
                   _showDialog();
                 }),
-                _buildListTile(
-                  'Dasturni baholash',
-                  Icons.star,
-                  Colors.yellowAccent,
-                  () {
-                    final url =
-                        Uri.parse('https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar');
+                if (Platform.isAndroid)
+                  _buildListTile(
+                    'Dasturni baholash',
+                    Icons.star,
+                    Colors.yellowAccent,
+                    () {
+                      const url = 'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar';
 
-                    launchUrl(url, mode: LaunchMode.externalApplication);
-                  },
-                ),
-                _buildListTile(
-                  'Dasturdan chiqish',
-                  Icons.logout,
-                  Colors.white,
-                  () => SystemNavigator.pop(),
-                ),
+                      launchUrlString(url);
+                    },
+                  ),
+                // _buildListTile(
+                //   'Dasturdan chiqish',
+                //   Icons.logout,
+                //   Colors.white,
+                //   () => SystemNavigator.pop(),
+                // ),
               ],
             ),
           ),
