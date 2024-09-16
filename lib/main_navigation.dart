@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:tabriklar/my_app.dart';
-import 'package:tabriklar/widgets/main_screen/main_screen.dart';
-import 'package:tabriklar/widgets/no_connection.dart';
-import 'package:tabriklar/widgets/photos_page/category_photos.dart';
-import 'package:tabriklar/widgets/photos_page/photos_page.dart';
-import 'package:tabriklar/widgets/saved_content_page/reading_saved_content.dart';
-import 'package:tabriklar/widgets/saved_content_page/saved_content_page.dart';
-import 'package:tabriklar/widgets/write_content/write_content_page.dart';
+import 'package:tabriklar/features/common/no_connection.dart';
+import 'package:tabriklar/features/common/splash_page.dart';
+import 'package:tabriklar/features/main_screen/main_screen.dart';
+import 'package:tabriklar/features/photos_page/category_photos.dart';
+import 'package:tabriklar/features/photos_page/photos_page.dart';
+import 'package:tabriklar/features/saved_content_page/reading_saved_content.dart';
+import 'package:tabriklar/features/saved_content_page/saved_content_page.dart';
+import 'package:tabriklar/features/write_content/write_content_page.dart';
 
-import 'widgets/congratulations/congratulations_birthday_widget.dart';
-import 'widgets/congratulations/content.dart';
+import 'features/congratulations/congratulations_birthday_widget.dart';
+import 'features/congratulations/content.dart';
 
 abstract class MainNavigationNames {
   static const home = '/home';
+  static const splash = '/splash';
   static const mainScreen = '/mainScreen';
   static const congratulations = '/congratulations';
   static const content = '/content';
@@ -26,22 +27,18 @@ abstract class MainNavigationNames {
 }
 
 class MainNavigation {
-  String initialRoute(bool connectivityX) => connectivityX
-      ? MainNavigationNames.mainScreen
-      : MainNavigationNames.noConnection;
+  String initialRoute() => MainNavigationNames.splash;
 
   final routes = <String, Widget Function(BuildContext)>{
     MainNavigationNames.mainScreen: (context) => const MainScreen(),
+    MainNavigationNames.splash: (context) => const SplashPage(),
     MainNavigationNames.noConnection: (context) => const NoConnection(),
-    MainNavigationNames.congratulations: (context) =>
-        const CongratulationsWidget(),
+    MainNavigationNames.congratulations: (context) => const CongratulationsWidget(),
     MainNavigationNames.content: (context) => ContentBirthday(),
     MainNavigationNames.favourites: (context) => const SavedContentPage(),
     MainNavigationNames.writing: (context) => WriteContentPage(),
-    MainNavigationNames.readingFavorite: (context) =>
-        const ReadingSavedContent(),
+    MainNavigationNames.readingFavorite: (context) => const ReadingSavedContent(),
     MainNavigationNames.photos: (context) => const PhotosPage(),
-    MainNavigationNames.categoryPhotos: (context) =>
-        const CategorPhotosWidget(),
+    MainNavigationNames.categoryPhotos: (context) => const CategorPhotosWidget(),
   };
 }

@@ -1,17 +1,12 @@
-import 'dart:developer';
-
 // import 'package:app_version_update/app_version_update.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:tabriklar/widgets/components/background_home_page.dart';
-import 'package:tabriklar/widgets/components/custom_advanced_drawer.dart';
-import 'package:tabriklar/widgets/home_page/home_page.dart';
-import 'package:tabriklar/widgets/photos_page/category_photos.dart';
-
-import '../../domain/service/ad_helper.dart';
+import 'package:tabriklar/features/components/background_home_page.dart';
+import 'package:tabriklar/features/components/custom_advanced_drawer.dart';
+import 'package:tabriklar/features/home_page/home_page.dart';
+import 'package:tabriklar/features/photos_page/category_photos.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
