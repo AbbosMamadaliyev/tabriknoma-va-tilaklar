@@ -24,7 +24,6 @@ abstract class AppTheme {
         ),
         dividerTheme: const DividerThemeData(color: AppColors.grey4),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            backgroundColor: AppColors.white,
             selectedItemColor: AppColors.black,
             unselectedItemColor: AppColors.grey2,
             selectedLabelStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.w600, fontSize: 11),
@@ -32,7 +31,6 @@ abstract class AppTheme {
             selectedIconTheme: IconThemeData(color: AppColors.black),
             unselectedIconTheme: IconThemeData(color: AppColors.black)),
         dividerColor: AppColors.black,
-        // bannerTheme: const MaterialBannerThemeData(backgroundColor: AppColors.dividerColor),
         appBarTheme: AppBarTheme(
           elevation: 0,
           iconTheme: const IconThemeData(color: AppColors.black),

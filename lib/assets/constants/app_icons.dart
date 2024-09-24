@@ -4,4 +4,6 @@ class AppIcons {
   static const failure = 'assets/icons/failure.svg';
   static const success = 'assets/icons/success.svg';
   static const xBack = 'assets/icons/x_back.svg';
+  static const home = 'assets/icons/home-1-svgrepo-com.svg';
+  static const gallery = 'assets/icons/gallery-round-svgrepo-com.svg';
 }
