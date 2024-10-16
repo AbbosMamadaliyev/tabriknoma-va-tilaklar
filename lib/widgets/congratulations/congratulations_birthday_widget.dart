@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -74,6 +73,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
             ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: congratulations.length,
+                padding: EdgeInsets.only(bottom: 64.h),
                 itemBuilder: (context, id) {
                   var congratulation = congratulations[id];
                   return GestureDetector(
