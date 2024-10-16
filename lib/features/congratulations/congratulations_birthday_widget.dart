@@ -73,6 +73,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
             ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: congratulations.length,
+                padding: EdgeInsets.only(bottom: 64.h),
                 itemBuilder: (context, id) {
                   var congratulation = congratulations[id];
                   return GestureDetector(
