@@ -29,4 +29,5 @@ class AppColors {
   static const grey3 = _gainsboro; //D9D9D9 //E0E0E0
   static const grey4 = _whiteSmoke;
   static const grey5 = _whiteSmoke2;
+  static const navBarColor = Color(0xffe1ecf3);
 }

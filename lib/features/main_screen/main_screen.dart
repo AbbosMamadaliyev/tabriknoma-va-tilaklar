@@ -1,13 +1,12 @@
 // import 'package:app_version_update/app_version_update.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tabriklar/assets/constants/app_icons.dart';
+import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/features/components/background_home_page.dart';
-import 'package:tabriklar/features/components/custom_advanced_drawer.dart';
 import 'package:tabriklar/features/home_page/home_page.dart';
+import 'package:tabriklar/features/main_screen/widgets/nav_bar.dart';
+import 'package:tabriklar/features/more/presentation/more_screen.dart';
 import 'package:tabriklar/features/photos_page/category_photos.dart';
 
 class MainScreen extends StatefulWidget {
@@ -18,88 +17,38 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final _advancedDrawerController = AdvancedDrawerController();
   int sectionIndex = 0;
-
-  void _handleMuneButtonPressed() {
-    _advancedDrawerController.showDrawer();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return CustomAdvancedDrawer(
-      advancedDrawerController: _advancedDrawerController,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
-            ),
-            onPressed: _handleMuneButtonPressed,
-          ),
-          title: Text(
-            'Tabrik va tilaklar',
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          centerTitle: true,
-        ),
-        body: BackgroundHomePage(
-          child: sectionIndex == 0 ? const HomePageBody() : const CategorPhotosWidget(),
-        ),
-        bottomNavigationBar: Container(
-          height: 56,
-          margin: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            color: Colors.blue.withOpacity(.3),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 10,
-                offset: const Offset(0, 0),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  Container(
-                    height: 4,
-                    width: 56,
-                    color: Colors.red,
-                  ),
-                  const SizedBox(height: 8),
-                  SvgPicture.asset(
-                    AppIcons.home,
-                    height: 24,
-                    width: 24,
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: 4,
-                    width: 56,
-                    color: Colors.red,
-                  ),
-                  const SizedBox(height: 8),
-                  SvgPicture.asset(
-                    AppIcons.gallery,
-                    height: 24,
-                    width: 24,
-                  ),
-                ],
-              ),
-            ],
+    return Scaffold(
+      extendBody: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: AppColors.navBarColor,
+        title: Text(
+          'Tabrik va tilaklar',
+          style: TextStyle(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w600,
           ),
         ),
+        centerTitle: true,
+      ),
+      body: BackgroundHomePage(
+        child: sectionIndex == 0
+            ? const HomePageBody()
+            : sectionIndex == 1
+                ? const CategorPhotosWidget()
+                : const MoreFunctionsScreen(),
+      ),
+      bottomNavigationBar: NavigationBarWidget(
+        onTabChanged: (int index) {
+          setState(() {
+            sectionIndex = index;
+          });
+        },
+        sectionIndex: sectionIndex,
       ),
     );
   }
