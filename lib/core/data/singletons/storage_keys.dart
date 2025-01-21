@@ -13,5 +13,6 @@ class StorageKeys {
   static const isFirstTime = 'isFirstTime';
   static const DeviceId = 'deviceId';
   static const socektSessionId = 'sessionId';
+  static const language = 'language';
   static const currentAppVersion = 'currentAppVersion';
 }

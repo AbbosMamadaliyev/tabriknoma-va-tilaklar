@@ -30,7 +30,10 @@ class MainNavigation {
   String initialRoute() => MainNavigationNames.splash;
 
   final routes = <String, Widget Function(BuildContext)>{
-    MainNavigationNames.mainScreen: (context) => const MainScreen(),
+    MainNavigationNames.mainScreen: (context) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+          child: const MainScreen(),
+        ),
     MainNavigationNames.splash: (context) => const SplashPage(),
     MainNavigationNames.noConnection: (context) => const NoConnection(),
     MainNavigationNames.congratulations: (context) => const CongratulationsWidget(),

@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabriklar/features/common/splash_page.dart';
+import 'package:tabriklar/generated/codegen_loader.g.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/utils/app_init.dart';
 import 'package:tabriklar/view_models/categor_model_provider/categor_model_provider.dart';
@@ -16,7 +18,20 @@ void main() {
     () async {
       await AppInit.create;
 
-      runApp(MyApp());
+      runApp(
+        EasyLocalization(
+          supportedLocales: const [
+            Locale('uz'),
+            Locale('ru'),
+            Locale('en'),
+          ],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('ru'),
+          startLocale: const Locale('ru'),
+          assetLoader: const CodegenLoader(),
+          child: MyApp(),
+        ),
+      );
     },
     (error, stackTrace) {
       print('=======main, runZonedGuarded: ${error}');
@@ -51,6 +66,9 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Tabriklar',
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           theme: ThemeData(
             appBarTheme: const AppBarTheme(
               elevation: 0,

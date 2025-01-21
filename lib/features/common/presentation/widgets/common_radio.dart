@@ -37,6 +37,7 @@ class CommonRadio extends StatelessWidget {
               duration: const Duration(milliseconds: 150),
               padding: EdgeInsets.all(value == groupValue ? size / 4 : 0),
               decoration: BoxDecoration(
+                color: value == groupValue ? activeColor : Colors.transparent,
                 shape: BoxShape.circle,
                 border: value == groupValue
                     ? null
