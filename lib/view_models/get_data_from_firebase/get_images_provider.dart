@@ -69,8 +69,8 @@ class ImageListProvider extends ChangeNotifier {
       final file = await File('${tempDir.path}/img$index.jpg').create();
       file.writeAsBytesSync(list);
 
-      Share.shareFiles(
-        [file.path],
+      Share.shareXFiles(
+        [XFile(file.path)],
         text: 'Tabrik va tilaklar',
         subject: 'Tabrik va tilaklar',
       );
