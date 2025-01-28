@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
@@ -57,13 +60,13 @@ class _SavedContentPageState extends State<SavedContentPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Saqlanganlar'),
+        backgroundColor: AppColors.white,
+        title: Text(LocaleKeys.saved.tr()),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/back.jpg'), fit: BoxFit.cover),
+          image: DecorationImage(image: AssetImage('assets/images/back.jpg'), fit: BoxFit.cover),
         ),
         child: ListView.builder(
             physics: const BouncingScrollPhysics(),
@@ -72,16 +75,13 @@ class _SavedContentPageState extends State<SavedContentPage> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(
-                      MainNavigationNames.readingFavorite,
-                      arguments: {
-                        'favoriteCongratulations': favoriteCongratulations,
-                        'index': index,
-                      });
+                  Navigator.of(context).pushNamed(MainNavigationNames.readingFavorite, arguments: {
+                    'favoriteCongratulations': favoriteCongratulations,
+                    'index': index,
+                  });
                 },
                 child: Card(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   color: Colors.white.withOpacity(0.8),
                   child: ListTile(
                     title: Text(

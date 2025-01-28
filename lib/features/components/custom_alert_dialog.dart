@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomAlertDialog extends StatelessWidget {
@@ -8,13 +10,12 @@ class CustomAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Dastur haqida'),
+      title: Text(LocaleKeys.about_app.tr()),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('  Bu dsaturda eng sara tabrik va tilaklar, sherlar jamlangan. '
-              'Tabriklarni yaqinlaringizga jo\'natishingiz mumkin.'),
-          const Text('\n  Agar dastur sizga yoqgan bo\'lsa baholang va do\'stlaringizga ulashing.'),
+          Text(LocaleKeys.collection_contains_best_congrats_and_wishes.tr()),
+          Text(LocaleKeys.if_you_like_app_please_rate_it.tr()),
           const SizedBox(height: 4),
           const Divider(),
           Row(
@@ -34,7 +35,7 @@ class CustomAlertDialog extends StatelessWidget {
                       color: Colors.orangeAccent,
                     ),
                   ),
-                  const Text('Baholash'),
+                  Text(LocaleKeys.evaluate.tr()),
                 ],
               ),
               Column(
@@ -51,14 +52,13 @@ class CustomAlertDialog extends StatelessWidget {
                       color: Colors.green,
                     ),
                   ),
-                  const Text('Ulashish'),
+                  Text(LocaleKeys.share.tr()),
                 ],
               ),
             ],
           ),
           const Divider(),
-          const Text('Ilovadagi materiallar internet saytlardan olindi. Bu Dastur muallifi , '
-              'ilova ichidagi materiallarga davolik qilmaydi. '),
+          Text(LocaleKeys.materials_in_the_app_taken_from_net.tr()),
         ],
       ),
     );

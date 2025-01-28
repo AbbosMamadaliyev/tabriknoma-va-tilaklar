@@ -13,8 +13,7 @@ class LocalDataProvider {
 
   LocalDataProvider._privateConstructor();
 
-  static final LocalDataProvider instance =
-      LocalDataProvider._privateConstructor();
+  static final LocalDataProvider instance = LocalDataProvider._privateConstructor();
 
   static Database? _database;
 
@@ -41,15 +40,13 @@ class LocalDataProvider {
       }
       ByteData data = await rootBundle.load(join('assets', databaseName));
 
-      List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       await File(path).writeAsBytes(bytes, flush: true);
 
       return openDatabase(path, version: databaseVersion);
     } else {
       //tepadagi ifdan ochvoladi birinchi, keyin elsedan ochilganni ishlataveradi
-      print('opening exists db');
 
       return openDatabase(path, version: databaseVersion);
     }

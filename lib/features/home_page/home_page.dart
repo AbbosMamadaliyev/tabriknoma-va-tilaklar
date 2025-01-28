@@ -20,6 +20,7 @@ class HomePageBody extends StatelessWidget {
       child: ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemCount: dbTables.length,
+          padding: const EdgeInsets.only(bottom: 88),
           itemBuilder: (context, categoryIndex) {
             // dbTabel bu yerda categoryalar, adashma!!!
             var table = dbTables[categoryIndex];
@@ -32,16 +33,13 @@ class HomePageBody extends StatelessWidget {
                 child: FadeInAnimation(
                   child: GestureDetector(
                     onTap: () {
-                      context.read<DbServiceProver>().getData(
-                          where: table.rowName, tableName: table.tableName);
+                      context.read<DbServiceProver>().getData(where: table.rowName, tableName: table.tableName);
 
-                      Navigator.of(context).pushNamed(
-                          MainNavigationNames.congratulations,
-                          arguments: {
-                            'where': table.rowName,
-                            'tableName': table.tableName,
-                            'categoryIndex': categoryIndex,
-                          });
+                      Navigator.of(context).pushNamed(MainNavigationNames.congratulations, arguments: {
+                        'where': table.rowName,
+                        'tableName': table.tableName,
+                        'categoryIndex': categoryIndex,
+                      });
                     },
                     child: CustomCard(
                       text: categories[categoryIndex].category,

@@ -1,13 +1,21 @@
 // import 'package:app_version_update/app_version_update.dart';
+import 'dart:developer';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
+import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
 import 'package:tabriklar/features/components/background_home_page.dart';
 import 'package:tabriklar/features/home_page/home_page.dart';
 import 'package:tabriklar/features/main_screen/widgets/nav_bar.dart';
 import 'package:tabriklar/features/more/presentation/more_screen.dart';
 import 'package:tabriklar/features/photos_page/category_photos.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
+import 'package:tabriklar/utils/my_functions.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -21,60 +29,92 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.navBarColor,
-        title: Text(
-          'Tabrik va tilaklar',
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w600,
+    return BlocListener<VersionBloc, VersionState>(
+      listenWhen: (previous, current) {
+        return current.appVersion != previous.appVersion;
+      },
+      listener: (context, state) async {
+        final needToUpdate = await MyFunctions.needToUpdate(state.appVersion.version);
+        log('needToUpdate: $needToUpdate');
+        if (needToUpdate) {
+          checkerUpdate(state.appVersion.required);
+        }
+      },
+      child: Scaffold(
+        extendBody: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: AppColors.white,
+          title: Text(
+            'Tabrik va tilaklar',
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: BackgroundHomePage(
-        child: sectionIndex == 0
-            ? const HomePageBody()
-            : sectionIndex == 1
-                ? const CategorPhotosWidget()
-                : const MoreFunctionsScreen(),
-      ),
-      bottomNavigationBar: NavigationBarWidget(
-        onTabChanged: (int index) {
-          setState(() {
-            sectionIndex = index;
-          });
-        },
-        sectionIndex: sectionIndex,
+        body: BackgroundHomePage(
+          child: sectionIndex == 0
+              ? const HomePageBody()
+              : sectionIndex == 1
+                  ? const CategorPhotosWidget()
+                  : const MoreFunctionsScreen(),
+        ),
+        bottomNavigationBar: NavigationBarWidget(
+          onTabChanged: (int index) {
+            setState(() {
+              sectionIndex = index;
+            });
+          },
+          sectionIndex: sectionIndex,
+        ),
       ),
     );
   }
 
-  // Future<void> checkerUpdate() async {
-  //   const playStoreId = 'com.mamadaliyev.abbos.tabriklar'; // If this value is null, its packagename will be considered
-  //   const country = 'uz'; // If this value is null 'us' will be the default value
-  //   await AppVersionUpdate.checkForUpdates(playStoreId: playStoreId, country: country).then((data) async {
-  //     log('data.storeVersion: ${data.storeVersion}');
-  //     log('data.storeUrl: ${data.storeUrl}');
-  //     if (data.canUpdate!) {
-  //       log('can updatteeee');
-  //       AppVersionUpdate.showAlertUpdate();
-  //
-  //       // showModalBottomSheet(
-  //       //     useRootNavigator: true,
-  //       //     isDismissible: false,
-  //       //     enableDrag: false,
-  //       //     context: context,
-  //       //     backgroundColor: Colors.transparent,
-  //       //     builder: (context) {
-  //       //       return UpdateBottomSheet(url: data.storeUrl!);
-  //       //     });
-  //     }
-  //   });
-  // }
+  Future<void> checkerUpdate(bool isRequired) async {
+    const playStoreLink = 'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar';
+
+    showDialog(
+      barrierDismissible: !isRequired,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Tabrik va tilaklar'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 16),
+              Text(
+                LocaleKeys.update_app_info.tr(),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  await launchUrlString(playStoreLink, mode: LaunchMode.externalApplication);
+                },
+                child: Text(LocaleKeys.update.tr()),
+              ),
+              if (!isRequired) ...{
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(LocaleKeys.cancel.tr()),
+                ),
+              },
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   CurvedNavigationBar customNavigationBar() {
     return CurvedNavigationBar(

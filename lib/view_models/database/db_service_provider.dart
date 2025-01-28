@@ -61,7 +61,7 @@ class DbServiceProver extends ChangeNotifier {
       _congratulations.clear();
       _congratulations.addAll(value);
 
-      _congratulations.shuffle();
+      // _congratulations.shuffle();
       notifyListeners();
     });
   }

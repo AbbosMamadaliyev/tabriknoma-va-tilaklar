@@ -1,10 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
 
-class WriteContentPage extends StatelessWidget {
-  WriteContentPage({Key? key}) : super(key: key);
+class WriteContentPage extends StatefulWidget {
+  const WriteContentPage({Key? key}) : super(key: key);
 
+  @override
+  State<WriteContentPage> createState() => _WriteContentPageState();
+}
+
+class _WriteContentPageState extends State<WriteContentPage> {
   final _controller = TextEditingController();
+
   String _textLink = '';
 
   void _onShareAppLink(BuildContext context) async {
@@ -12,8 +20,8 @@ class WriteContentPage extends StatelessWidget {
     if (_textLink.isNotEmpty) {
       await Share.share(_textLink);
     } else {
-      const snackBar = SnackBar(
-        content: Text('Iltimos matn kiriting!'),
+      final snackBar = SnackBar(
+        content: Text(LocaleKeys.please_enter_text.tr()),
         backgroundColor: Colors.redAccent,
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -24,7 +32,8 @@ class WriteContentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tabrik matningizni kiriting'),
+        backgroundColor: Colors.white,
+        title: Text(LocaleKeys.enter_your_text.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
@@ -35,7 +44,7 @@ class WriteContentPage extends StatelessWidget {
           controller: _controller,
           decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: 'Shu yerga yozing',
+            hintText: LocaleKeys.write_here.tr(),
             hintStyle: TextStyle(
               color: Colors.grey.shade400,
             ),
@@ -47,7 +56,7 @@ class WriteContentPage extends StatelessWidget {
           _onShareAppLink(context);
         },
         backgroundColor: Colors.teal,
-        child: const Icon(Icons.send),
+        child: const Icon(Icons.send, color: Colors.white),
       ),
     );
   }

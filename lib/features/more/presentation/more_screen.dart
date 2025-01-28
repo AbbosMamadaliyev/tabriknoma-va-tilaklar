@@ -7,6 +7,7 @@ import 'package:tabriklar/core/data/singletons/service_locator.dart';
 import 'package:tabriklar/core/data/singletons/storage.dart';
 import 'package:tabriklar/features/common/presentation/widgets/lang_bottomsheet.dart';
 import 'package:tabriklar/features/components/custom_alert_dialog.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/utils/extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -27,7 +28,7 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
       children: [
         const SizedBox(height: 24),
         _buildListTile(
-          'Saqlanganlar',
+          LocaleKeys.saved.tr(),
           Icons.favorite,
           Colors.redAccent,
           () {
@@ -35,13 +36,13 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
           },
         ),
         _buildListTile(
-          'O\'zim yozaman',
+          LocaleKeys.i_write.tr(),
           Icons.edit,
           Colors.green,
           () => Navigator.of(context).pushNamed(MainNavigationNames.writing),
         ),
         _buildListTile(
-          'Dastur tili',
+          LocaleKeys.langauge.tr(),
           Icons.language,
           Colors.blue,
           () {
@@ -63,13 +64,13 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
             });
           },
         ),
-        _buildListTile('Dastur haqida', Icons.info, Colors.grey, () {
+        _buildListTile(LocaleKeys.about_app.tr(), Icons.info, Colors.grey, () {
           _showDialog();
         }),
 
         if (Platform.isAndroid)
           _buildListTile(
-            'Dasturni baholash',
+            LocaleKeys.evaluate.tr(),
             Icons.star,
             Colors.yellowAccent,
             () {

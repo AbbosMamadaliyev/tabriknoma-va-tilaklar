@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/assets/constants/app_icons.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
 
 class NavigationBarWidget extends StatefulWidget {
   final Function(int index) onTabChanged;
@@ -18,10 +20,10 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: 56,
-      margin: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28.r),
-        color: AppColors.navBarColor,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -59,7 +61,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Asosiy',
+                    LocaleKeys.main.tr(),
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500,
@@ -96,7 +98,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Rasmlar',
+                    LocaleKeys.photos.tr(),
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500,

@@ -65,6 +65,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(categories[categoryIndex].category),
       ),
       body: BackgroundCongratulationsPage(
@@ -74,10 +75,12 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: congratulations.length,
                 padding: EdgeInsets.only(bottom: 64.h),
-                itemBuilder: (context, id) {
-                  var congratulation = congratulations[id];
+                itemBuilder: (context, index) {
+                  var congratulation = congratulations[index];
                   return GestureDetector(
                     onTap: () {
+                      // print('congratulation: ${congratulation.id}');
+                      // return;
                       // tabriklar bosilganda provider orqali borib read() qilib keladi
                       // keyingi oynaga otganda , bosilganini sezib chiqarib beradi contentni
                       context.read<DbServiceProver>().getData(where: where, tableName: tableName);
@@ -88,7 +91,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
                             Navigator.of(context).pushNamed(
                               MainNavigationNames.content,
                               arguments: {
-                                'id': id,
+                                'id': congratulation.id,
                                 'tableName': tableName,
                               },
                             );
@@ -100,7 +103,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
                         Navigator.of(context).pushNamed(
                           MainNavigationNames.content,
                           arguments: {
-                            'id': id,
+                            'id': congratulation.id,
                             'tableName': tableName,
                           },
                         );

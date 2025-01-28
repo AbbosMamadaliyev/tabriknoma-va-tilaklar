@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tabriklar/assets/colors/app_colors.dart';
 
 // ignore: must_be_immutable
 class ReadingSavedContent extends StatefulWidget {
@@ -15,8 +16,7 @@ class _ReadingSavedContentState extends State<ReadingSavedContent> {
 
   @override
   Widget build(BuildContext context) {
-    var args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    var args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     var index = args['index'];
     final favoriteCongratulations = args['favoriteCongratulations'];
 
@@ -24,6 +24,7 @@ class _ReadingSavedContentState extends State<ReadingSavedContent> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text('Tilak, tabrik, sher'),
       ),
       body: SingleChildScrollView(
@@ -40,8 +41,11 @@ class _ReadingSavedContentState extends State<ReadingSavedContent> {
           _textLink = congratulation.content;
           await Share.share(_textLink);
         },
-        child: const Icon(Icons.send),
-        backgroundColor: const Color(0xff378842),
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.send,
+          color: AppColors.green,
+        ),
       ),
     );
   }

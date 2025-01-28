@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
 import 'package:tabriklar/features/common/splash_page.dart';
 import 'package:tabriklar/generated/codegen_loader.g.dart';
 import 'package:tabriklar/main_navigation.dart';
@@ -34,7 +36,8 @@ void main() {
       );
     },
     (error, stackTrace) {
-      print('=======main, runZonedGuarded: ${error}');
+      print('=======main error, error: ${error}');
+      print('=======main error, stackTrace: ${stackTrace}');
     },
   );
 }
@@ -61,23 +64,26 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => ImageListProvider(),
         ),
       ],
-      child: ScreenUtilInit(
-        designSize: const Size(375, 812),
-        child: MaterialApp(
-          title: 'Tabriklar',
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              elevation: 0,
-              color: Color(0xff1c901e),
+      child: BlocProvider(
+        create: (context) => VersionBloc()..add(const RemoteConfigUpdateEvent()),
+        child: ScreenUtilInit(
+          designSize: const Size(375, 812),
+          child: MaterialApp(
+            title: 'Tabriklar',
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: ThemeData(
+              appBarTheme: const AppBarTheme(
+                elevation: 0,
+                color: Color(0xff1c901e),
+              ),
             ),
+            initialRoute: mainNavigation.initialRoute(),
+            routes: mainNavigation.routes,
+            onGenerateRoute: (_) => MaterialPageRoute(builder: (_) => const SplashPage()),
           ),
-          initialRoute: mainNavigation.initialRoute(),
-          routes: mainNavigation.routes,
-          onGenerateRoute: (_) => MaterialPageRoute(builder: (_) => const SplashPage()),
         ),
       ),
     );

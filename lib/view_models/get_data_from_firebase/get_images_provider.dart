@@ -69,7 +69,11 @@ class ImageListProvider extends ChangeNotifier {
       final file = await File('${tempDir.path}/img$index.jpg').create();
       file.writeAsBytesSync(list);
 
-      Share.shareFiles([file.path]);
+      Share.shareFiles(
+        [file.path],
+        text: 'Tabrik va tilaklar',
+        subject: 'Tabrik va tilaklar',
+      );
       notifyListeners();
     } catch (e) {
       print('Share error: $e');

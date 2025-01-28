@@ -20,10 +20,10 @@ dependencies:
   cached_network_image:
 
   flutter_native_splash: ^2.4.1
-  firebase_database: ^9.0.6
-  firebase_core: ^1.12.0
+  firebase_database: ^11.3.1
+  firebase_core: ^3.10.1
 
-  firebase_core_platform_interface: 4.5.1
+  firebase_core_platform_interface: ^5.4.0
   easy_localization:
 
 
@@ -40,7 +40,7 @@ dependencies:
   connectivity_plus: ^6.0.3
   flutter_staggered_animations: ^1.1.1
   shimmer: ^2.0.0
-  google_mobile_ads: ^2.3.0
+  google_mobile_ads: ^5.3.1
   url_launcher: ^6.1.10
 
 #  app_version_update:
@@ -51,7 +51,7 @@ dependencies:
   package_info_plus:
   permission_handler:
   intl:
-  firebase_messaging:
+  firebase_messaging: ^15.2.1
   flutter_local_notifications: ^17.2.2
   json_annotation:
   freezed_annotation:
@@ -62,6 +62,8 @@ dependencies:
   flutter_svg:
   flutter_touch_ripple: ^1.1.21
   top_snackbar_flutter: ^3.1.0
+  firebase_remote_config: ^5.3.1
+  firebase_analytics: ^11.4.1
 
 
 

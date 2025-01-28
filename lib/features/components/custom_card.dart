@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabriklar/assets/colors/app_colors.dart';
 
 class CustomCard extends StatelessWidget {
   final String text;
@@ -12,10 +13,10 @@ class CustomCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.15,
       width: double.infinity,
       child: Card(
-        color: const Color(0xff1e027a).withOpacity(0.7),
+        color: AppColors.navBarColor,
         elevation: 6,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        shadowColor: AppColors.grey3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
         child: Row(
           children: [
@@ -24,17 +25,18 @@ class CustomCard extends StatelessWidget {
               width: 6,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.r),
-                color: const Color(0xff1ece20),
+                color: AppColors.white,
               ),
             ),
             Expanded(
               child: Center(
                 child: Text(
                   text,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -44,7 +46,7 @@ class CustomCard extends StatelessWidget {
               width: 6,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.r),
-                color: const Color(0xff1ece20),
+                color: AppColors.white,
               ),
             ),
           ],

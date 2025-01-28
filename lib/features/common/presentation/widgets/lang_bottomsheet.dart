@@ -96,7 +96,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                     )),
             CommonButton(
               hasGradient: true,
-              color: AppColors.red,
+              color: AppColors.blue,
               margin: EdgeInsets.only(top: 20, bottom: MediaQuery.of(context).padding.bottom),
               onTap: () {
                 widget.onTapX();

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/src/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
 import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
 class ContentBirthday extends StatefulWidget {
-  ContentBirthday({Key? key}) : super(key: key);
+  const ContentBirthday({Key? key}) : super(key: key);
 
   @override
   State<ContentBirthday> createState() => _ContentBirthdayState();
@@ -17,15 +18,15 @@ class _ContentBirthdayState extends State<ContentBirthday> {
 
   @override
   Widget build(BuildContext context) {
-    var args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    var args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     var id = args['id'];
     var tableName = args['tableName'];
 
-    final congratulation = context.watch<DbServiceProver>().congratulations[id];
+    final congratulation = context.watch<DbServiceProver>().congratulations[id - 1];
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text('Tilak, tabrik, sher'),
         actions: [
           IconButton(
@@ -43,16 +44,12 @@ class _ContentBirthdayState extends State<ContentBirthday> {
               )
                   .then((value) {
                 setState(() {
-                  congratulation.favourite == 0
-                      ? congratulation.favourite = 1
-                      : congratulation.favourite = 0;
+                  congratulation.favourite == 0 ? congratulation.favourite = 1 : congratulation.favourite = 0;
                 });
               });
             },
             icon: Icon(
-              congratulation.favourite == 0
-                  ? Icons.favorite_border
-                  : Icons.favorite,
+              congratulation.favourite == 0 ? Icons.favorite_border : Icons.favorite,
               color: Colors.redAccent,
               size: 28,
             ),
@@ -87,8 +84,15 @@ class _ContentBirthdayState extends State<ContentBirthday> {
           _textLink = congratulation.content;
           await Share.share(_textLink);
         },
-        child: const Icon(Icons.send),
-        backgroundColor: const Color(0xff378842),
+        backgroundColor: Colors.white,
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.skewY(0.0)..rotateZ(-0.3),
+          child: const Icon(
+            Icons.send,
+            color: AppColors.green,
+          ),
+        ),
       ),
     );
   }

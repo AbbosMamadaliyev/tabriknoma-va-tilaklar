@@ -1,4 +1,22 @@
 {
   "choose_lang": "Choose language",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "saved": "Favorites",
+  "i_write": "I can write",
+  "langauge": "Language",
+  "about_app": "About the application",
+  "main": "Main",
+  "photos": "Photos",
+  "write_here": "Write here",
+  "enter_your_text": "Enter your text",
+  "please_enter_text": "Please enter text",
+  "materials_in_the_app_taken_from_net": "The materials in the application were taken from internet sites. The author of this Program does not endorse the materials in the application.",
+  "share": "Share",
+  "evaluate": "Evaluate",
+  "if_you_like_app_please_rate_it": "If you like the app, please rate it and share it with your friends.",
+  "collection_contains_best_congrats_and_wishes": "This collection contains the best congratulations, wishes, and poems. You can send congratulations to your loved ones.",
+  "congratulations_via_pic": "Congratulations via picture",
+  "update": "Update",
+  "cancel": "Cancel",
+  "update_app_info": "Dear user, we ask you to update to the latest version to continue using the app"
 }

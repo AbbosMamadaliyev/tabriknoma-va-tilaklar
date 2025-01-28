@@ -54,8 +54,18 @@ class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              itemCount: 3,
+              itemCount: 3 + (_bannerAd == null ? 0 : 1),
               itemBuilder: (context, index) {
+                if (index == 3) {
+                  return _bannerAd == null
+                      ? Container()
+                      : Container(
+                          height: 64.h,
+                          width: 1.sw,
+                          padding: EdgeInsets.only(top: 16.h),
+                          child: AdWidget(ad: _bannerAd!),
+                        );
+                }
                 return Padding(
                   padding: EdgeInsets.only(top: 16.h),
                   child: InkWell(
@@ -82,16 +92,16 @@ class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
                 );
               }),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: _bannerAd == null
-              ? Container()
-              : SizedBox(
-                  height: 52.h,
-                  width: 1.sw,
-                  child: AdWidget(ad: _bannerAd!),
-                ),
-        )
+        // Align(
+        //   alignment: Alignment.bottomCenter,
+        //   child: _bannerAd == null
+        //       ? Container()
+        //       : SizedBox(
+        //           height: 52.h,
+        //           width: 1.sw,
+        //           child: AdWidget(ad: _bannerAd!),
+        //         ),
+        // )
       ],
     );
   }
