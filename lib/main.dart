@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:tabriklar/core/data/singletons/storage.dart';
 import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
 import 'package:tabriklar/features/common/splash_page.dart';
 import 'package:tabriklar/generated/codegen_loader.g.dart';
@@ -28,8 +29,8 @@ void main() {
             Locale('en'),
           ],
           path: 'assets/translations',
-          fallbackLocale: const Locale('ru'),
-          startLocale: const Locale('ru'),
+          fallbackLocale: Locale(StorageRepository.getString(StorageKeys.language, defValue: 'uz')),
+          startLocale: Locale(StorageRepository.getString(StorageKeys.language, defValue: 'uz')),
           assetLoader: const CodegenLoader(),
           child: MyApp(),
         ),

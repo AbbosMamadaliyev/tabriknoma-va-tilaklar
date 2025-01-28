@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/src/provider.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
@@ -16,6 +18,36 @@ class ContentBirthday extends StatefulWidget {
 class _ContentBirthdayState extends State<ContentBirthday> {
   String _textLink = '';
 
+  RateMyApp rateMyApp = RateMyApp(
+    preferencesPrefix: 'rateMyApp_',
+    minDays: 7,
+    minLaunches: 10,
+    remindDays: 7,
+    remindLaunches: 10,
+    googlePlayIdentifier: 'com.mamadaliyev.abbos.tabriklar',
+  );
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await rateMyApp.init();
+      rateMyApp.showRateDialog(
+        title: context.locale.languageCode == 'uz'
+            ? 'Dastur haqida fikringizni bildiring'
+            : context.locale.languageCode == 'ru'
+                ? 'Оставьте свой отзыв о приложении'
+                : 'Leave your feedback about the app',
+        message: context.locale.languageCode == 'uz'
+            ? 'Dasturimizni baholab qo\'yish uchun iltimos, 5 yulduzchani bosing'
+            : context.locale.languageCode == 'ru'
+                ? 'Пожалуйста, оцените наше приложение, нажав на 5 звезд'
+                : 'Please rate our app by clicking on 5 stars',
+        context,
+      );
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
@@ -27,7 +59,11 @@ class _ContentBirthdayState extends State<ContentBirthday> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Tilak, tabrik, sher'),
+        title: context.locale.languageCode == 'uz'
+            ? const Text('Tilak, tabrik, sher')
+            : context.locale.languageCode == 'ru'
+                ? const Text('Поздравления, стихи')
+                : const Text('Congratulations, poems'),
         actions: [
           IconButton(
             onPressed: () {

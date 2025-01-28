@@ -16,5 +16,41 @@ class CategoryModelProvider extends ChangeNotifier {
     Category(category: 'O\'qituvchilar kuniga sherlar'),
   ];
 
-  List<Category> get categories => _categories;
+  final List<Category> _ruCategories = [
+    Category(category: 'Поздравления с днем рождения'),
+    Category(category: 'Поздравления с днем рождения близких'),
+    Category(category: 'Поздравления с пятницей'),
+    Category(category: '8 марта поздравления'),
+    Category(category: 'Поздравления с месяцем Рамазан'),
+    Category(category: 'Поздравления с праздником Курбан Хайт'),
+    Category(category: 'Для влюбленных'),
+    Category(category: 'Четверостишья о друге'),
+    Category(category: 'Поздравления на 14 января'),
+    Category(category: 'Стихи на имя девушки'),
+    Category(category: 'Стихи на день учителя'),
+  ];
+
+  final List<Category> _enCategories = [
+    Category(category: 'Birthday greetings'),
+    Category(category: 'Birthday greetings to loved ones'),
+    Category(category: 'Friday greetings'),
+    Category(category: '8 March greetings'),
+    Category(category: 'Ramadan month greetings'),
+    Category(category: 'Kurban Hayit greetings'),
+    Category(category: 'For lovers'),
+    Category(category: 'Quatrains about a friend'),
+    Category(category: 'Greetings for 14 January'),
+    Category(category: 'Poems for girls\' names'),
+    Category(category: 'Poems for teachers\' day'),
+  ];
+
+  List<Category> categories(String locale) {
+    if (locale == 'uz') {
+      return _categories;
+    } else if (locale == 'ru') {
+      return _ruCategories;
+    } else {
+      return _enCategories;
+    }
+  }
 }

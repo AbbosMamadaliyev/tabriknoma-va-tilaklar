@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/core/data/singletons/service_locator.dart';
 import 'package:tabriklar/core/data/singletons/storage.dart';
+import 'package:tabriklar/domain/service/ad_helper.dart';
 import 'package:tabriklar/features/common/presentation/widgets/lang_bottomsheet.dart';
 import 'package:tabriklar/features/components/custom_alert_dialog.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
@@ -20,11 +23,25 @@ class MoreFunctionsScreen extends StatefulWidget {
 }
 
 class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
+  BannerAd? _bannerAd;
+
+  @override
+  void initState() {
+    if (Platform.isAndroid) {
+      _bannerAd = BannerAd(
+        adUnitId: AdHelper.moreScreenBannerId,
+        request: const AdRequest(),
+        size: const AdSize(width: 375, height: 64),
+        listener: AdHelper.listener,
+      )..load();
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
       children: [
         const SizedBox(height: 24),
         _buildListTile(
@@ -50,24 +67,20 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
               context: context,
               builder: (context) => LanguageBottomSheet(
                 locale: context.locale.languageCode,
-                onTapX: () {},
-              ),
-            ).then((value) async {
-              if (value is String) {
-                await context.setLocale(Locale(value.toString()));
-                await StorageRepository.putString(StorageKeys.language, value.toString());
-                // serviceLocator<DioSettings>().setBaseOptions(lang: value);
-                await resetLocator();
+                onTapX: (locale) async {
+                  await context.setLocale(Locale(locale));
+                  await StorageRepository.putString(StorageKeys.language, locale);
+                  await resetLocator();
 
-                setState(() {});
-              }
-            });
+                  setState(() {});
+                },
+              ),
+            );
           },
         ),
         _buildListTile(LocaleKeys.about_app.tr(), Icons.info, Colors.grey, () {
           _showDialog();
         }),
-
         if (Platform.isAndroid)
           _buildListTile(
             LocaleKeys.evaluate.tr(),
@@ -76,15 +89,16 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
             () {
               const url = 'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar';
 
-              launchUrlString(url);
+              launchUrlString(url, mode: LaunchMode.externalApplication);
             },
           ),
-        // _buildListTile(
-        //   'Dasturdan chiqish',
-        //   Icons.logout,
-        //   Colors.white,
-        //   () => SystemNavigator.pop(),
-        // ),
+        _bannerAd == null
+            ? const SizedBox()
+            : Container(
+                height: 64.h,
+                padding: EdgeInsets.only(top: 16.h),
+                child: AdWidget(ad: _bannerAd!),
+              )
       ],
     );
   }

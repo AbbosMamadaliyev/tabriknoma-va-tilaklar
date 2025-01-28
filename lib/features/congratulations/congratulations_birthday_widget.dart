@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -54,7 +55,7 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
   @override
   Widget build(BuildContext context) {
     // bu appbar title' uchun
-    final categories = context.watch<CategoryModelProvider>().categories;
+    final categories = context.watch<CategoryModelProvider>().categories(context.locale.languageCode);
 
     final congratulations = context.watch<DbServiceProver>().congratulations;
 

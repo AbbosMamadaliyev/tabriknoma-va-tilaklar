@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories = context.watch<CategoryModelProvider>().categories;
+    final categories = context.watch<CategoryModelProvider>().categories(context.locale.languageCode);
     final dbTables = context.watch<DbTableModelProvider>().dbTables;
     return AnimationLimiter(
       child: ListView.builder(

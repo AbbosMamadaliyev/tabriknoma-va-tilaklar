@@ -13,18 +13,18 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 1)).then((val) {
-      Navigator.pushReplacementNamed(context, '/mainScreen');
+      Navigator.pushNamedAndRemoveUntil(context, '/mainScreen', (route) => false);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
+        children: [
           Center(
               child: Image(
             image: AssetImage('assets/images/splash.png'),

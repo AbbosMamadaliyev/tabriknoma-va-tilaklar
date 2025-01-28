@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -118,6 +119,19 @@ class CustomChildContainerGradient extends StatelessWidget {
     'Aralash tabrik va tilaklar'
   ];
 
+  // category name in russian language
+  final List<String> ruCategories = [
+    'С днемрождения в картинках',
+    'Поздравления с Juma',
+    'Разные поздравления и пожелания'
+  ];
+
+  final List<String> enCategories = [
+    'Birthday greetings in pictures',
+    'Greetings for Juma',
+    'Various greetings and wishes'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,7 +149,11 @@ class CustomChildContainerGradient extends StatelessWidget {
         ),
       ),
       child: Text(
-        categories[index],
+        context.locale.languageCode == 'uz'
+            ? categories[index]
+            : context.locale.languageCode == 'ru'
+                ? ruCategories[index]
+                : enCategories[index],
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.sp,

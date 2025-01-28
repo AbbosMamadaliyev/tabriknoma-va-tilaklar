@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +20,7 @@ class NavigationBarWidget extends StatefulWidget {
 class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   @override
   Widget build(BuildContext context) {
+    log('===== NavigationBarWidget build, language: ${context.locale.languageCode} =====');
     return Container(
       height: 56,
       margin: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 24),

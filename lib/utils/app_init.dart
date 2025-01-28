@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logging/logging.dart';
+import 'package:tabriklar/core/data/singletons/service_locator.dart';
 import 'package:tabriklar/firebase_options.dart';
 
 import '../../domain/service/connectivity.dart';
@@ -29,6 +30,7 @@ class AppInit {
 
     /// Device Orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    await setupLocator();
     _setupLogging();
     configLoading();
   }
