@@ -1,5 +1,6 @@
 // import 'package:app_version_update/app_version_update.dart';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
+import 'package:tabriklar/core/utils/notification_service.dart';
 import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
 import 'package:tabriklar/features/components/background_home_page.dart';
 import 'package:tabriklar/features/home_page/home_page.dart';
@@ -26,6 +28,26 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int sectionIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationConfig();
+  }
+
+  Future<void> _notificationConfig() async {
+    await PushNotificationService.configurationFirebaseNotification();
+
+    PushNotificationService.initializeAndListenFirebaseMessaging();
+
+    try {
+      if (Platform.isAndroid) {
+        PushNotificationService.initializeLocalNotificationPlugin(context);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -32,8 +33,22 @@ class LocalDataProvider {
   Future<Database> initializeDatabase() async {
     var databasePath = await getDatabasesPath();
 
-    final langCode = StorageRepository.getString(StorageKeys.language, defValue: 'uz');
+    String langCode = StorageRepository.getString(StorageKeys.language, defValue: 'uz');
     print('langCode121: $langCode');
+
+    final remoteConfig = FirebaseRemoteConfig.instance;
+
+    final rL = remoteConfig.getBool('is_en');
+    if (rL) {
+      langCode = 'en';
+    }
+
+    remoteConfig.onConfigUpdated.listen((config) {
+      final rL = remoteConfig.getBool('is_en');
+      if (rL) {
+        langCode = 'en';
+      }
+    });
 
     String databaseName = langCode == 'ru'
         ? ruDatabaseName
