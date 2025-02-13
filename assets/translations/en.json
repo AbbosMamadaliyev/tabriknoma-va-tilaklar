@@ -10,7 +10,7 @@
   "write_here": "Write here",
   "enter_your_text": "Enter your text",
   "please_enter_text": "Please enter text",
-  "materials_in_the_app_taken_from_net": "The materials in the application were taken from internet sites. The author of this Program does not endorse the materials in the application.",
+  "materials_in_the_app_taken_from_net": "The materials in the application were taken from internet sites.",
   "share": "Share",
   "evaluate": "Evaluate",
   "if_you_like_app_please_rate_it": "If you like the app, please rate it and share it with your friends.",
@@ -18,5 +18,11 @@
   "congratulations_via_pic": "Congratulations via picture",
   "update": "Update",
   "cancel": "Cancel",
-  "update_app_info": "Dear user, we ask you to update to the latest version to continue using the app"
+  "update_app_info": "Dear user, we ask you to update to the latest version to continue using the app",
+  "useful_projects": "Useful projects",
+  "useful_for_you": "Useful for you",
+  "useful_channels": "Useful channels",
+  "useful": "Useful",
+  "install": "Install",
+  "transition": "Go"
 }

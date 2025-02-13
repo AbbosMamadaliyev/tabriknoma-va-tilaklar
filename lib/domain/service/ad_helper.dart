@@ -42,6 +42,17 @@ class AdHelper {
     }
   }
 
+  static String get usefulInterstitialAdUnitId {
+    if (Platform.isAndroid) {
+      return 'ca-app-pub-8830329988183040/3890737029';
+
+      /// test ads id
+      return 'ca-app-pub-3940256099942544/1033173712';
+    } else {
+      throw UnsupportedError("Unsupported platform");
+    }
+  }
+
   static String get rewardedAdUnitId {
     if (Platform.isAndroid) {
       return "ca-app-pub-3940256099942544/5224354917";

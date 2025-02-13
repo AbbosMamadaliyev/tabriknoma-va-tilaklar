@@ -10,6 +10,7 @@ import 'package:tabriklar/core/data/singletons/storage.dart';
 import 'package:tabriklar/domain/service/ad_helper.dart';
 import 'package:tabriklar/features/common/presentation/widgets/lang_bottomsheet.dart';
 import 'package:tabriklar/features/components/custom_alert_dialog.dart';
+import 'package:tabriklar/features/more/presentation/widgets/for_you_useful_card.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/utils/extensions.dart';
@@ -78,20 +79,35 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
             );
           },
         ),
-        _buildListTile(LocaleKeys.about_app.tr(), Icons.info, Colors.grey, () {
-          _showDialog();
-        }),
-        if (Platform.isAndroid)
-          _buildListTile(
-            LocaleKeys.evaluate.tr(),
-            Icons.star,
-            Colors.yellowAccent,
-            () {
-              const url = 'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar';
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              Expanded(
+                child: _buildListTile(LocaleKeys.about_app.tr(), Icons.info, Colors.grey, () {
+                  _showDialog();
+                }, isRow: true),
+              ),
+              Expanded(
+                child: _buildListTile(
+                  LocaleKeys.evaluate.tr(),
+                  Icons.star,
+                  Colors.deepPurpleAccent,
+                  () {
+                    const url = 'https://play.google.com/store/apps/details?id=com.mamadaliyev.abbos.tabriklar';
 
-              launchUrlString(url, mode: LaunchMode.externalApplication);
-            },
+                    launchUrlString(url, mode: LaunchMode.externalApplication);
+                  },
+                  isRow: true,
+                ),
+              ),
+            ],
           ),
+        ),
+        const SizedBox(height: 8),
+        const UsefulForYouCard(),
         _bannerAd == null
             ? const SizedBox()
             : Container(
@@ -103,19 +119,20 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
     );
   }
 
-  Container _buildListTile(String title, IconData icon, Color color, void Function() func) {
+  Widget _buildListTile(String title, IconData icon, Color color, void Function() func, {bool isRow = false}) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: isRow ? 0 : 16),
+      width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppColors.navBarColor,
+        color: AppColors.white,
       ),
       child: ListTile(
         onTap: func,
         leading: Icon(icon, color: color),
         title: Text(
           title,
-          style: context.textTheme.displaySmall!.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
+          style: context.textTheme.displaySmall!.copyWith(fontSize: isRow ? 15 : 16, fontWeight: FontWeight.w500),
         ),
       ),
     );

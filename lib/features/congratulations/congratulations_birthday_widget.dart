@@ -25,6 +25,8 @@ class CongratulationsWidget extends StatefulWidget {
 class _CongratulationsWidgetState extends State<CongratulationsWidget> {
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
+  int _numInterstitialLoadAttempts = 0;
+  int maxFailedLoadAttempts = 3;
 
   @override
   void initState() {
@@ -160,17 +162,24 @@ class _CongratulationsWidgetState extends State<CongratulationsWidget> {
     );
   }
 
-  void loadInterstitialAd() {
-    InterstitialAd.load(
+  void loadInterstitialAd() async {
+    await InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
-      request: AdRequest(),
+      request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           setState(() {
+            _numInterstitialLoadAttempts = 0;
             _interstitialAd = ad;
+            print('_interstitialAd: $ad');
           });
         },
         onAdFailedToLoad: (err) {
+          _numInterstitialLoadAttempts += 1;
+          _interstitialAd = null;
+          if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+            loadInterstitialAd();
+          }
           print('Failed to load an interstitial ad: ${err.message}');
         },
       ),

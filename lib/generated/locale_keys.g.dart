@@ -21,5 +21,11 @@ abstract class  LocaleKeys {
   static const update = 'update';
   static const cancel = 'cancel';
   static const update_app_info = 'update_app_info';
+  static const useful_projects = 'useful_projects';
+  static const useful_for_you = 'useful_for_you';
+  static const useful_channels = 'useful_channels';
+  static const useful = 'useful';
+  static const install = 'install';
+  static const transition = 'transition';
 
 }
