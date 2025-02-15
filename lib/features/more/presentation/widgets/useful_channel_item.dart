@@ -84,7 +84,7 @@ class UsefulChannelItem extends StatelessWidget {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () async {
-              await launchUrlString(link);
+              await launchUrlString(link, mode: LaunchMode.externalApplication);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
