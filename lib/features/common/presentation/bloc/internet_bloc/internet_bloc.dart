@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
 part 'internet_event.dart';
-
 part 'internet_state.dart';
 
 class InternetBloc extends Bloc<InternetEvent, InternetState> {
@@ -20,8 +19,6 @@ class InternetBloc extends Bloc<InternetEvent, InternetState> {
           status: FormzSubmissionStatus.initial,
         )) {
     subscription = connectivity.onConnectivityChanged.listen((event) {
-      print("isConnectedisConnected: ${event}");
-
       if (!isFirstTime) {
         if (event.contains(ConnectivityResult.wifi) ||
             event.contains(ConnectivityResult.mobile) ||
@@ -41,7 +38,6 @@ class InternetBloc extends Bloc<InternetEvent, InternetState> {
     on<CheckConnectionEvent>((event, emit) async {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       final connectivityResult = await connectivity.checkConnectivity();
-      print(connectivityResult);
       if (connectivityResult.contains(ConnectivityResult.wifi) ||
           connectivityResult.contains(ConnectivityResult.mobile) ||
           connectivityResult.contains(ConnectivityResult.ethernet)) {
@@ -57,11 +53,16 @@ class InternetBloc extends Bloc<InternetEvent, InternetState> {
         }
       }
     });
+    on<CheckEvent>(_checkEvent);
   }
 
   @override
   Future<void> close() async {
     await subscription.cancel();
     return super.close();
+  }
+
+  FutureOr<void> _checkEvent(CheckEvent event, Emitter<InternetState> emit) {
+    emit(state.copyWith(isCheck: true));
   }
 }

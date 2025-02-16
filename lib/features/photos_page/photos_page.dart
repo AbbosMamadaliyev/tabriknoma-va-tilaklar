@@ -62,82 +62,86 @@ class _PhotosPageState extends State<PhotosPage> {
       ),
       body: Stack(
         children: [
-          ListView.builder(
-              itemCount: imageLinkList.length,
-              padding: const EdgeInsets.only(top: 16, bottom: 56),
-              itemBuilder: (context, index) {
-                var image = imageLinkList[index] ?? defaultLink;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0, right: 4, left: 4, top: 4),
-                  child: Card(
-                    elevation: 8,
-                    child: Column(
-                      children: [
-                        isLoading
-                            ? Shimmer(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.black.withOpacity(.1),
-                                    Colors.black.withOpacity(.4),
-                                  ],
-                                ),
-                                child: Container(
-                                  height: 264,
-                                  width: double.maxFinite,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : ClipRRect(
-                                borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(12),
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl: image,
-                                  fadeInDuration: const Duration(milliseconds: 150),
-                                  fadeOutDuration: const Duration(milliseconds: 150),
-                                  placeholder: (context, url) => const SizedBox(
+          if (isLoading) ...{
+            const Center(child: CupertinoActivityIndicator()),
+          } else ...{
+            ListView.builder(
+                itemCount: imageLinkList.length,
+                padding: const EdgeInsets.only(top: 16, bottom: 56),
+                itemBuilder: (context, index) {
+                  var image = imageLinkList[index] ?? defaultLink;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0, right: 4, left: 4, top: 4),
+                    child: Card(
+                      elevation: 8,
+                      child: Column(
+                        children: [
+                          isLoading
+                              ? Shimmer(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.black.withOpacity(.1),
+                                      Colors.black.withOpacity(.4),
+                                    ],
+                                  ),
+                                  child: Container(
                                     height: 264,
                                     width: double.maxFinite,
-                                    child: Center(child: CupertinoActivityIndicator()),
+                                    color: Colors.white,
                                   ),
-                                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                                ),
-                              ),
-                        InkWell(
-                          child: SizedBox(
-                            height: 64.h,
-                            width: double.infinity,
-                            child: IconButton(
-                              icon: isActiveBtn[index]
-                                  ? const CupertinoActivityIndicator()
-                                  : Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          LocaleKeys.share.tr(),
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        const Icon(
-                                          Icons.send,
-                                          color: Color(0xff1c901e),
-                                        ),
-                                      ],
+                                )
+                              : ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(12),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: image,
+                                    fadeInDuration: const Duration(milliseconds: 150),
+                                    fadeOutDuration: const Duration(milliseconds: 150),
+                                    placeholder: (context, url) => const SizedBox(
+                                      height: 264,
+                                      width: double.maxFinite,
+                                      child: Center(child: CupertinoActivityIndicator()),
                                     ),
-                              onPressed: () {
-                                model.shareImage(image ?? defaultLink, index);
-                              },
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  ),
+                                ),
+                          InkWell(
+                            child: SizedBox(
+                              height: 64.h,
+                              width: double.infinity,
+                              child: IconButton(
+                                icon: isActiveBtn[index]
+                                    ? const CupertinoActivityIndicator()
+                                    : Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            LocaleKeys.share.tr(),
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          const Icon(
+                                            Icons.send,
+                                            color: Color(0xff1c901e),
+                                          ),
+                                        ],
+                                      ),
+                                onPressed: () {
+                                  model.shareImage(image ?? defaultLink, index);
+                                },
+                              ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+          },
           Align(
             alignment: Alignment.bottomCenter,
             child: _bannerAd == null

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabriklar/core/data/singletons/storage.dart';
+import 'package:tabriklar/features/common/presentation/bloc/internet_bloc/internet_bloc.dart';
 import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
 import 'package:tabriklar/features/common/splash_page.dart';
 import 'package:tabriklar/generated/codegen_loader.g.dart';
@@ -65,8 +66,11 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => ImageListProvider(),
         ),
       ],
-      child: BlocProvider(
-        create: (context) => VersionBloc()..add(const RemoteConfigUpdateEvent()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => VersionBloc()..add(const RemoteConfigUpdateEvent())),
+          BlocProvider(create: (context) => InternetBloc()..add(CheckConnectionEvent())),
+        ],
         child: ScreenUtilInit(
           designSize: const Size(375, 812),
           child: MaterialApp(

@@ -18,3 +18,5 @@ class CheckConnectionEvent extends InternetEvent {
     this.onSuccess,
   });
 }
+
+class CheckEvent extends InternetEvent {}

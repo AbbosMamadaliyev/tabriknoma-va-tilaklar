@@ -13,6 +13,7 @@ import 'package:tabriklar/features/components/custom_alert_dialog.dart';
 import 'package:tabriklar/features/more/presentation/widgets/for_you_useful_card.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:tabriklar/main_navigation.dart';
+import 'package:tabriklar/utils/analytics_service.dart';
 import 'package:tabriklar/utils/extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -36,6 +37,9 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
         listener: AdHelper.listener,
       )..load();
     }
+
+    AnalyticsService.logEvent(name: AnalyticsKeys.moreScreen);
+
     super.initState();
   }
 

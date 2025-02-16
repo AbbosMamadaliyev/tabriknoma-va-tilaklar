@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tabriklar/utils/analytics_service.dart';
 
 class ImageListProvider extends ChangeNotifier {
   final dataBase = FirebaseDatabase.instance.ref();
@@ -73,7 +74,11 @@ class ImageListProvider extends ChangeNotifier {
         [XFile(file.path)],
         text: 'Tabrik va tilaklar',
         subject: 'Tabrik va tilaklar',
-      );
+      ).then((value) {
+        if (value.status == ShareResultStatus.success) {
+          AnalyticsService.logEvent(name: AnalyticsKeys.sendContent);
+        }
+      });
       notifyListeners();
     } catch (e) {
       print('Share error: $e');

@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/core/utils/notification_service.dart';
+import 'package:tabriklar/features/common/presentation/bloc/internet_bloc/internet_bloc.dart';
 import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
 import 'package:tabriklar/features/components/background_home_page.dart';
 import 'package:tabriklar/features/home_page/home_page.dart';
@@ -16,6 +17,7 @@ import 'package:tabriklar/features/main_screen/widgets/nav_bar.dart';
 import 'package:tabriklar/features/more/presentation/more_screen.dart';
 import 'package:tabriklar/features/photos_page/category_photos.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
+import 'package:tabriklar/utils/analytics_service.dart';
 import 'package:tabriklar/utils/my_functions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -32,6 +34,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+
+    context.read<InternetBloc>().add(CheckEvent());
+
+    AnalyticsService.logEvent(name: AnalyticsKeys.appLaunch);
+
     _notificationConfig();
   }
 
@@ -51,45 +58,59 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<VersionBloc, VersionState>(
-      listenWhen: (previous, current) {
-        return current.appVersion != previous.appVersion;
-      },
-      listener: (context, state) async {
-        final needToUpdate = await MyFunctions.needToUpdate(state.appVersion.version);
-        log('needToUpdate: $needToUpdate');
-        if (needToUpdate) {
-          checkerUpdate(state.appVersion.required);
+    return BlocListener<InternetBloc, InternetState>(
+      listenWhen: (oldState, newState) =>
+          oldState.isConnected != newState.isConnected || oldState.isCheck != newState.isCheck,
+      listener: (context, state) {
+        if (!state.isConnected) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Internet bilan aloqa yo\'q'),
+              backgroundColor: Colors.red,
+            ),
+          );
         }
       },
-      child: Scaffold(
-        extendBody: true,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.white,
-          title: Text(
-            'Tabrik va tilaklar',
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w600,
+      child: BlocListener<VersionBloc, VersionState>(
+        listenWhen: (previous, current) {
+          return current.appVersion != previous.appVersion;
+        },
+        listener: (context, state) async {
+          final needToUpdate = await MyFunctions.needToUpdate(state.appVersion.version);
+          log('needToUpdate: $needToUpdate');
+          if (needToUpdate) {
+            checkerUpdate(state.appVersion.required);
+          }
+        },
+        child: Scaffold(
+          extendBody: true,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: AppColors.white,
+            title: Text(
+              'Tabrik va tilaklar',
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
+            centerTitle: true,
           ),
-          centerTitle: true,
-        ),
-        body: BackgroundHomePage(
-          child: sectionIndex == 0
-              ? const HomePageBody()
-              : sectionIndex == 1
-                  ? const CategorPhotosWidget()
-                  : const MoreFunctionsScreen(),
-        ),
-        bottomNavigationBar: NavigationBarWidget(
-          onTabChanged: (int index) {
-            setState(() {
-              sectionIndex = index;
-            });
-          },
-          sectionIndex: sectionIndex,
+          body: BackgroundHomePage(
+            child: sectionIndex == 0
+                ? const HomePageBody()
+                : sectionIndex == 1
+                    ? const CategorPhotosWidget()
+                    : const MoreFunctionsScreen(),
+          ),
+          bottomNavigationBar: NavigationBarWidget(
+            onTabChanged: (int index) {
+              setState(() {
+                sectionIndex = index;
+              });
+            },
+            sectionIndex: sectionIndex,
+          ),
         ),
       ),
     );

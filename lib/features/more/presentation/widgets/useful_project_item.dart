@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
+import 'package:tabriklar/utils/analytics_service.dart';
 import 'package:tabriklar/utils/extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -64,6 +65,11 @@ class UsefulProjectItem extends StatelessWidget {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () async {
+              AnalyticsService.logEvent(
+                name: AnalyticsKeys.installApp,
+                parameters: {'app': title},
+              );
+
               await launchUrlString(link, mode: LaunchMode.externalApplication);
             },
             child: Container(

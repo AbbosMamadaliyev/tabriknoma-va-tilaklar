@@ -6,6 +6,7 @@ import 'package:tabriklar/domain/models/useful_apps_model.dart';
 import 'package:tabriklar/features/more/presentation/widgets/useful_channel_item.dart';
 import 'package:tabriklar/features/more/presentation/widgets/useful_project_item.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
+import 'package:tabriklar/utils/analytics_service.dart';
 import 'package:tabriklar/utils/extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -17,6 +18,13 @@ class UsefulProjectsScreen extends StatefulWidget {
 }
 
 class _UsefulProjectsScreenState extends State<UsefulProjectsScreen> {
+  @override
+  void initState() {
+    AnalyticsService.logEvent(name: AnalyticsKeys.projectsScreen);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

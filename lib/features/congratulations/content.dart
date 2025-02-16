@@ -6,6 +6,7 @@ import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
+import 'package:tabriklar/utils/analytics_service.dart';
 import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
 class ContentBirthday extends StatefulWidget {
@@ -31,7 +32,8 @@ class _ContentBirthdayState extends State<ContentBirthday> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await rateMyApp.init();
-      rateMyApp.showRateDialog(
+      rateMyApp
+          .showRateDialog(
         title: context.locale.languageCode == 'uz'
             ? 'Dastur haqida fikringizni bildiring'
             : context.locale.languageCode == 'ru'
@@ -43,8 +45,14 @@ class _ContentBirthdayState extends State<ContentBirthday> {
                 ? 'Пожалуйста, оцените наше приложение, нажав на 5 звезд'
                 : 'Please rate our app by clicking on 5 stars',
         context,
-      );
+      )
+          .then((_) {
+        AnalyticsService.logEvent(name: AnalyticsKeys.rateApp);
+      });
     });
+
+    AnalyticsService.logEvent(name: AnalyticsKeys.readContent);
+
     super.initState();
   }
 
@@ -118,7 +126,11 @@ class _ContentBirthdayState extends State<ContentBirthday> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           _textLink = congratulation.content;
-          await Share.share(_textLink);
+          await Share.share(_textLink).then((value) {
+            if (value.status == ShareResultStatus.success) {
+              AnalyticsService.logEvent(name: AnalyticsKeys.sendContent);
+            }
+          });
         },
         backgroundColor: Colors.white,
         child: Transform(
