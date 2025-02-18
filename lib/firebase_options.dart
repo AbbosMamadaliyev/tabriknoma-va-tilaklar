@@ -68,4 +68,5 @@ class DefaultFirebaseOptions {
     androidClientId: '102504064630-216ndbjlb4r959ksvu83rfl39j5hc4pk.apps.googleusercontent.com',
     iosBundleId: 'com.uz.m.abbos.tabriklar',
   );
+
 }
