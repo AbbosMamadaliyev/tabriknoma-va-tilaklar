@@ -88,5 +88,8 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
+    implementation("com.google.firebase:firebase-analytics")
+
+
 //    implementation 'com.google.firebase:firebase-config:21.5.0'
 }

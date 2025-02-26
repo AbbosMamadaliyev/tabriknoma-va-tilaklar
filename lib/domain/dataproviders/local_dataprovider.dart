@@ -34,7 +34,6 @@ class LocalDataProvider {
     var databasePath = await getDatabasesPath();
 
     String langCode = StorageRepository.getString(StorageKeys.language, defValue: 'uz');
-    print('langCode121: $langCode');
 
     final remoteConfig = FirebaseRemoteConfig.instance;
 

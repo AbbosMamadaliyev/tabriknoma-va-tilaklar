@@ -10,4 +10,8 @@ class AppIcons {
   static const flagUz = 'assets/icons/uz_flag.svg';
   static const flagRu = 'assets/icons/ru_flag.svg';
   static const flagEn = 'assets/icons/en_flag.svg';
+
+  static String instagram = 'assets/icons/instagram.svg';
+
+  static String send = 'assets/icons/send.svg';
 }

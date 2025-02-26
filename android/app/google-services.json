@@ -21,10 +21,6 @@
             "package_name": "com.mamadaliyev.abbos.tabriklar",
             "certificate_hash": "24a34c0894c7e5f42eeba29af6bba053725fc5d0"
           }
-        },
-        {
-          "client_id": "102504064630-ah6epk321nhk9vci7k4v847vvq86d3dp.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -34,12 +30,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "102504064630-ah6epk321nhk9vci7k4v847vvq86d3dp.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       },
       "admob_app_id": "ca-app-pub-8830329988183040~5373183352"

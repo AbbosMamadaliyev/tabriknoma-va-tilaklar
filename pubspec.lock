@@ -560,6 +560,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  flutter_painter_v2:
+    dependency: "direct main"
+    description:
+      name: flutter_painter_v2
+      sha256: bdbe07344e38d7c8b0d6fd6ea056ad7f20b5e78b79a3c3ca4182951d0436a3ff
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0+1"
   flutter_rating_bar:
     dependency: transitive
     description:
@@ -722,6 +730,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.3.0"
+  installed_apps:
+    dependency: "direct main"
+    description:
+      name: installed_apps
+      sha256: "34d001c74632fe4f10aa460a143d73050ea666f8f83d05a2bc84b2a0a91cf897"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.2"
   intl:
     dependency: "direct main"
     description:
@@ -1183,14 +1199,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  social_sharing_plus:
+  social_share:
     dependency: "direct main"
     description:
-      name: social_sharing_plus
-      sha256: d0bd9dc3358cf66a3aac7cce549902360f30bccf44cf6090a708d97cc54ca854
+      name: social_share
+      sha256: eb19a0f6f5a29c7bb71e5bb1991145eb52472184363b6e2da70695befd8be041
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.3"
+    version: "2.3.1"
   source_gen:
     dependency: transitive
     description:
@@ -1503,6 +1519,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.17.0"
+  widgets_to_image:
+    dependency: "direct main"
+    description:
+      name: widgets_to_image
+      sha256: "9a251b95d3a9f10d72420dde9b7e3b0da5eddd47fb19cad066bc68c60b0d1dfb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   win32:
     dependency: transitive
     description:
