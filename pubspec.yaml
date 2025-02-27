@@ -4,7 +4,7 @@ description: A new Flutter application.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # NOTE: update chiqaishdan oldin test reklamani o'chirish kerak
-version: 1.0.12+13
+version: 1.0.12+14
 
 environment:
   sdk: '>=3.1.3 <4.0.0'
@@ -70,7 +70,6 @@ dependencies:
   flutter_painter_v2: ^2.1.0+1
   social_share: ^2.3.1
   widgets_to_image: ^1.0.0
-  installed_apps: ^1.5.2
 
 
 

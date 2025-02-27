@@ -4,10 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:installed_apps/installed_apps.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/src/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -32,12 +32,13 @@ class PhotosPage extends StatefulWidget {
 class _PhotosPageState extends State<PhotosPage> {
   BannerAd? _bannerAd;
   bool appIsInstalled = false;
+  static const MethodChannel _channel = MethodChannel('com.example/checkInstagram');
 
   @override
   void initState() {
     super.initState();
 
-    checkAppInstalled();
+    checkAppInstallFromChannel();
 
     if (Platform.isAndroid) {
       BannerAd(
@@ -59,11 +60,18 @@ class _PhotosPageState extends State<PhotosPage> {
     }
   }
 
-  void checkAppInstalled() async {
+  void checkAppInstallFromChannel() async {
     if (Platform.isAndroid) {
-      appIsInstalled = await InstalledApps.isAppInstalled('com.instagram.android') ?? false;
+      try {
+        final bool isInstalled = await _channel.invokeMethod('isInstagramInstalled');
+        setState(() {
+          appIsInstalled = isInstalled;
+          print('isInstalled: $isInstalled');
+        });
+      } on PlatformException catch (e) {
+        print('PlatformException: $e');
+      }
     }
-    setState(() {});
   }
 
   @override
@@ -168,7 +176,7 @@ class _PhotosPageState extends State<PhotosPage> {
                                     await SocialShare.shareInstagramStory(
                                       backgroundTopColor: "#ffffff",
                                       backgroundBottomColor: "#ffffff",
-                                      appId: 'com.example.lock_example',
+                                      appId: 'com.mamadaliyev.abbos.tabriklar',
                                       imagePath: filePath,
                                     ).then((value) async {
                                       await AnalyticsService.logEvent(name: 'image_instagram_story');
