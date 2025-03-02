@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tabriklar/assets/constants/app_constants.dart';
 import 'package:tabriklar/core/data/singletons/storage.dart';
 
 abstract class MyFunctions {
@@ -70,6 +71,7 @@ abstract class MyFunctions {
     String date, {
     String? format = 'dd.MM.yyyy',
     bool withTime = false,
+    required String locale,
   }) {
     try {
       DateTime dateTime;
@@ -79,9 +81,9 @@ abstract class MyFunctions {
         dateTime = DateTime.now();
       }
       if (!withTime) {
-        return DateFormat(format).format(dateTime);
+        return DateFormat(format, locale).format(dateTime);
       } else {
-        return DateFormat("$format, HH:mm").format(dateTime);
+        return DateFormat("$format, HH:mm", locale).format(dateTime);
       }
     } catch (e) {
       return date;
@@ -154,5 +156,19 @@ abstract class MyFunctions {
       newCost += oldCost[i];
     }
     return newCost.trimLeft();
+  }
+
+  static String iftarTime() {
+    int today = DateTime.now().day;
+    String iftarTime = RamadanTimes.iftar[today] ?? '';
+
+    return iftarTime;
+  }
+
+  static String suhoorTime() {
+    int today = DateTime.now().day;
+    String suhoorTime = RamadanTimes.suhoor[today] ?? '';
+
+    return suhoorTime;
   }
 }

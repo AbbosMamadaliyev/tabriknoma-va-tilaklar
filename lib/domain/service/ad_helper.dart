@@ -29,6 +29,19 @@ class AdHelper {
     }
   }
 
+  static String get ramadanTimesBannerId {
+    if (Platform.isAndroid) {
+      return 'ca-app-pub-8830329988183040/6171341466';
+
+      /// test ads id
+      return 'ca-app-pub-3940256099942544/6300978111';
+    } else if (Platform.isIOS) {
+      return 'ca-app-pub-8830329988183040/1875424491';
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
+  }
+
   static String get interstitialAdUnitId {
     if (Platform.isAndroid) {
       return 'ca-app-pub-8830329988183040/9056668687';

@@ -28,4 +28,5 @@ class AnalyticsKeys {
   static const String projectsScreen = 'projects_screen';
   static const String installApp = 'install_app';
   static const String launchChannel = 'launch_channel';
+  static const String ramadanTimes = 'ramadan_times';
 }

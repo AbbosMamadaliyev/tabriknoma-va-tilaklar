@@ -7,4 +7,12 @@ class AppImages {
   static String mMastery = 'assets/images/m_mastery.jpg';
 
   static var ieltsBand = 'assets/images/ielts_band.png';
+
+  static String vector = 'assets/images/Vector.png';
+
+  static String uzor = 'assets/images/uzor.png';
+
+  static String ramadanTimes = 'assets/images/ramadan_times.jpeg';
+
+  // static String lights = 'assets/images/lights.png';
 }

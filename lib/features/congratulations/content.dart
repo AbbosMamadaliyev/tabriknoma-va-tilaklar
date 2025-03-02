@@ -32,8 +32,7 @@ class _ContentBirthdayState extends State<ContentBirthday> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await rateMyApp.init();
-      rateMyApp
-          .showRateDialog(
+      rateMyApp.showRateDialog(
         title: context.locale.languageCode == 'uz'
             ? 'Dastur haqida fikringizni bildiring'
             : context.locale.languageCode == 'ru'
@@ -45,8 +44,11 @@ class _ContentBirthdayState extends State<ContentBirthday> {
                 ? 'Пожалуйста, оцените наше приложение, нажав на 5 звезд'
                 : 'Please rate our app by clicking on 5 stars',
         context,
-      )
-          .then((_) {
+        listener: (button) {
+          print('Clicked on "$button" button');
+          return false;
+        },
+      ).then((_) {
         AnalyticsService.logEvent(name: AnalyticsKeys.rateApp);
       });
     });

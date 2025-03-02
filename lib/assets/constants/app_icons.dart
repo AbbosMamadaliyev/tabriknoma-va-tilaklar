@@ -14,4 +14,7 @@ class AppIcons {
   static String instagram = 'assets/icons/instagram.svg';
 
   static String send = 'assets/icons/send.svg';
+
+  static String sun = 'assets/icons/sun.svg';
+  static String moon = 'assets/icons/moonlight.svg';
 }

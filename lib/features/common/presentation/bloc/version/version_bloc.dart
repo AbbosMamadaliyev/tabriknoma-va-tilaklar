@@ -18,10 +18,12 @@ class VersionBloc extends Bloc<VersionEvent, VersionState> {
     setupRemoteConfig();
 
     on<RemoteConfigUpdateEvent>((event, emit) {
-      print('RemoteConfigUpdateEvent: ${remoteConfig.getString('app_update_check')}');
-      print('remoteConfig.getAll(): ${remoteConfig.getAll()}');
+      print('remoteConfig.getAll(): ${remoteConfig.getAll().values.map((e) => e.asString()).toList().length}');
 
       final configString = remoteConfig.getString('app_update_check');
+      final isRamadanMonth = remoteConfig.getBool('is_ramadan_month');
+      emit(state.copyWith(isRamadanMonth: isRamadanMonth));
+
       if (configString.isNotEmpty) {
         final version = jsonDecode(remoteConfig.getString('app_update_check'));
 
