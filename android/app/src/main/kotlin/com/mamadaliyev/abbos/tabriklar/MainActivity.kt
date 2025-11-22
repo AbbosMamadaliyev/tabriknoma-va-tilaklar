@@ -1,4 +1,4 @@
-package com.uz.m.abbos.tabriklar
+package com.mamadaliyev.abbos.tabriklar
 
 import io.flutter.embedding.android.FlutterActivity
 import android.content.Context

@@ -44,7 +44,7 @@ abstract class AppTheme {
               // systemNavigationBarColor: Platform.isIOS ? AppColors.mainDark : AppColors.white,
               systemNavigationBarIconBrightness: Brightness.dark),
         ),
-        cardTheme: const CardTheme(color: AppColors.black),
+        cardTheme: const CardThemeData(color: AppColors.black),
         drawerTheme: const DrawerThemeData(
             backgroundColor: AppColors.black,
             scrimColor: AppColors.black,

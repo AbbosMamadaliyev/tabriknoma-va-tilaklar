@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-// ignore_for_file: prefer_single_quotes, avoid_renaming_method_parameters
+// ignore_for_file: prefer_single_quotes, avoid_renaming_method_parameters, constant_identifier_names
 
 import 'dart:ui';
 
@@ -14,7 +14,7 @@ class CodegenLoader extends AssetLoader{
     return Future.value(mapLocales[locale.toString()]);
   }
 
-  static const Map<String,dynamic> ru = {
+  static const Map<String,dynamic> _ru = {
   "choose_lang": "Выберите язык",
   "confirm": "Подтвердить",
   "saved": "Избранное",
@@ -42,7 +42,7 @@ class CodegenLoader extends AssetLoader{
   "install": "Установить",
   "transition": "Переход"
 };
-static const Map<String,dynamic> en = {
+static const Map<String,dynamic> _en = {
   "choose_lang": "Choose language",
   "confirm": "Confirm",
   "saved": "Favorites",
@@ -70,7 +70,7 @@ static const Map<String,dynamic> en = {
   "install": "Install",
   "transition": "Go"
 };
-static const Map<String,dynamic> uz = {
+static const Map<String,dynamic> _uz = {
   "choose_lang": "Tilni tanlang",
   "confirm": "Tasdiqlash",
   "saved": "Saqlanganlar",
@@ -98,5 +98,5 @@ static const Map<String,dynamic> uz = {
   "install": "O'rnatish",
   "transition": "O'tish"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"ru": ru, "en": en, "uz": uz};
+static const Map<String, Map<String,dynamic>> mapLocales = {"ru": _ru, "en": _en, "uz": _uz};
 }

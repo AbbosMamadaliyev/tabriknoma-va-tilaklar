@@ -13,16 +13,7 @@
           "package_name": "com.mamadaliyev.abbos.tabriklar"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "102504064630-216ndbjlb4r959ksvu83rfl39j5hc4pk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mamadaliyev.abbos.tabriklar",
-            "certificate_hash": "24a34c0894c7e5f42eeba29af6bba053725fc5d0"
-          }
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyAy-zwirBZvbOb5gyb3rhgTExQQPCkp9Uo"

@@ -17,7 +17,7 @@ extension BuildContextExtensions on BuildContext {
   // CustomColors get themeExtension => theme.extension<CustomColors>()!;
   Brightness get brightness => theme.brightness;
 
-  AppBarTheme get appBarTheme => theme.appBarTheme;
+  AppBarThemeData get appBarTheme => theme.appBarTheme;
 
   Future<void> showPopUp(
     BuildContext context,
