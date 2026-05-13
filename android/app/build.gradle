@@ -40,7 +40,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     compileSdkVersion 36
     namespace "com.mamadaliyev.abbos.tabriklar"
-    ndkVersion = "28.1.13356709"
+    ndkVersion = "28.2.13676358"
 
 
 

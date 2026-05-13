@@ -77,7 +77,7 @@ class PushNotificationService {
     var initializationSettingsIOS = const DarwinInitializationSettings();
     var initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin.initialize(settings: initializationSettings);
   }
 
   static void listenFireBaseOnMessage() {
@@ -88,10 +88,10 @@ class PushNotificationService {
 
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-            1,
-            notification.title,
-            notification.body,
-            NotificationDetails(
+            id: 1,
+            title: notification.title,
+            body: notification.body,
+            notificationDetails: NotificationDetails(
                 android: AndroidNotificationDetails(
               channel.id,
               channel.name,

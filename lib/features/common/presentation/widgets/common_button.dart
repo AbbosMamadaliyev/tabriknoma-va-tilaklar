@@ -68,7 +68,7 @@ class CommonButton extends StatelessWidget {
               });
             }
           },
-          borderRadius: BorderRadius.circular(borderRadius),
+          rippleBorderRadius: BorderRadius.circular(borderRadius),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             width: width,
