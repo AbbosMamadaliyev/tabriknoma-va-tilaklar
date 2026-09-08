@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/src/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,6 +20,7 @@ import 'package:tabriklar/view_models/get_data_from_firebase/get_images_provider
 import 'package:widgets_to_image/widgets_to_image.dart';
 
 import '../../domain/service/ad_helper.dart';
+import '../../features/components/google_ads_widget.dart';
 
 class PhotosPage extends StatefulWidget {
   const PhotosPage({Key? key}) : super(key: key);
@@ -30,34 +30,13 @@ class PhotosPage extends StatefulWidget {
 }
 
 class _PhotosPageState extends State<PhotosPage> {
-  BannerAd? _bannerAd;
   bool appIsInstalled = false;
   static const MethodChannel _channel = MethodChannel('com.example/checkInstagram');
 
   @override
   void initState() {
     super.initState();
-
     checkAppInstallFromChannel();
-
-    if (Platform.isAndroid) {
-      BannerAd(
-        adUnitId: AdHelper.bannerAdUnitId,
-        request: const AdRequest(),
-        size: AdSize.banner,
-        listener: BannerAdListener(
-          onAdLoaded: (ad) {
-            _bannerAd = ad as BannerAd?;
-            setState(() {});
-            print('_bannerAd: $ad');
-          },
-          onAdFailedToLoad: (ad, err) {
-            print('Failed to load a banner ad: ${err.message}');
-            ad.dispose();
-          },
-        ),
-      ).load();
-    }
   }
 
   void checkAppInstallFromChannel() async {
@@ -204,13 +183,13 @@ class _PhotosPageState extends State<PhotosPage> {
           },
           Align(
             alignment: Alignment.bottomCenter,
-            child: _bannerAd == null
-                ? Container()
-                : SizedBox(
-                    height: 52.h,
-                    width: 1.sw,
-                    child: AdWidget(ad: _bannerAd!),
-                  ),
+            child: SafeArea(
+              top: false,
+              child: Material(
+                color: Colors.transparent,
+                child: GoogleAdsWidget(adUnitId: AdHelper.bannerAdUnitId),
+              ),
+            ),
           ),
         ],
       ),

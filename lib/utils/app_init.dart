@@ -26,7 +26,7 @@ class AppInit {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    MobileAds.instance.initialize();
+    await MobileAds.instance.initialize();
 
     /// Device Orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

@@ -3,7 +3,7 @@ description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-# NOTE: update chiqaishdan oldin test reklamani o'chirish kerak
+# Debug build uses AdMob test IDs automatically; release uses production IDs.
 version: 1.0.16+18
 
 environment:

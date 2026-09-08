@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -18,33 +16,45 @@ class UsefulForYouCard extends StatefulWidget {
 
 class _UsefulForYouCardState extends State<UsefulForYouCard> {
   InterstitialAd? _interstitialAd;
-  int _numInterstitialLoadAttempts = 0;
-  int maxFailedLoadAttempts = 3;
 
   @override
   void initState() {
-    if (Platform.isAndroid) {
-      loadInterstitialAd();
-    }
     super.initState();
+    _loadInterstitialAd();
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('_interstitialAd: $_interstitialAd');
-        if (_interstitialAd != null) {
-          _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UsefulProjectsScreen()));
-            },
+        void openUseful() {
+          if (!mounted) return;
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const UsefulProjectsScreen()),
           );
-          _interstitialAd?.show();
-          _interstitialAd = null;
-        } else {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UsefulProjectsScreen()));
         }
+
+        // Session: 1-chi kirishda reklama yo'q, keyingilarida bor.
+        if (!AdHelper.shouldShowInterstitialThisSession(AdHelper.placementUseful)) {
+          openUseful();
+          return;
+        }
+
+        final interstitialAd = _interstitialAd;
+        _interstitialAd = null;
+        AdHelper.showInterstitial(
+          ad: interstitialAd,
+          onComplete: () {
+            _loadInterstitialAd();
+            openUseful();
+          },
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
@@ -67,27 +77,16 @@ class _UsefulForYouCardState extends State<UsefulForYouCard> {
     );
   }
 
-  void loadInterstitialAd() async {
-    await InterstitialAd.load(
+  void _loadInterstitialAd() {
+    AdHelper.loadInterstitial(
       adUnitId: AdHelper.usefulInterstitialAdUnitId,
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          setState(() {
-            _numInterstitialLoadAttempts = 0;
-            _interstitialAd = ad;
-            print('_interstitialAd: $ad');
-          });
-        },
-        onAdFailedToLoad: (err) {
-          _numInterstitialLoadAttempts += 1;
-          _interstitialAd = null;
-          if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
-            loadInterstitialAd();
-          }
-          print('Failed to load an interstitial ad: ${err.message}');
-        },
-      ),
+      onLoaded: (ad) {
+        if (!mounted) {
+          ad.dispose();
+          return;
+        }
+        setState(() => _interstitialAd = ad);
+      },
     );
   }
 }

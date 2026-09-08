@@ -1,15 +1,12 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/core/data/singletons/service_locator.dart';
 import 'package:tabriklar/core/data/singletons/storage.dart';
 import 'package:tabriklar/domain/service/ad_helper.dart';
 import 'package:tabriklar/features/common/presentation/widgets/lang_bottomsheet.dart';
 import 'package:tabriklar/features/components/custom_alert_dialog.dart';
+import 'package:tabriklar/features/components/google_ads_widget.dart';
 import 'package:tabriklar/features/more/presentation/widgets/for_you_useful_card.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:tabriklar/main_navigation.dart';
@@ -25,30 +22,20 @@ class MoreFunctionsScreen extends StatefulWidget {
 }
 
 class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
-  BannerAd? _bannerAd;
-
   @override
   void initState() {
-    if (Platform.isAndroid) {
-      _bannerAd = BannerAd(
-        adUnitId: AdHelper.moreScreenBannerId,
-        request: const AdRequest(),
-        size: const AdSize(width: 375, height: 64),
-        listener: AdHelper.listener,
-      )..load();
-    }
-
-    AnalyticsService.logEvent(name: AnalyticsKeys.moreScreen);
-
     super.initState();
+    AnalyticsService.logEvent(name: AnalyticsKeys.moreScreen);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    // MainScreen uses extendBody: true + floating nav (~56 + 24 margin).
+    final bottomInset = MediaQuery.paddingOf(context).bottom + 96;
+
+    return ListView(
+      padding: EdgeInsets.only(top: 24, bottom: bottomInset),
       children: [
-        const SizedBox(height: 24),
         _buildListTile(
           LocaleKeys.saved.tr(),
           Icons.favorite,
@@ -112,13 +99,10 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
         ),
         const SizedBox(height: 8),
         const UsefulForYouCard(),
-        _bannerAd == null
-            ? const SizedBox()
-            : Container(
-                height: 64.h,
-                padding: EdgeInsets.only(top: 16.h),
-                child: AdWidget(ad: _bannerAd!),
-              )
+        const SizedBox(height: 16),
+        Center(
+          child: GoogleAdsWidget(adUnitId: AdHelper.moreScreenBannerId),
+        ),
       ],
     );
   }
@@ -142,11 +126,12 @@ class _MoreFunctionsScreenState extends State<MoreFunctionsScreen> {
     );
   }
 
-  _showDialog() {
+  void _showDialog() {
     showDialog(
-        context: context,
-        builder: (context) {
-          return const CustomAlertDialog();
-        });
+      context: context,
+      builder: (context) {
+        return const CustomAlertDialog();
+      },
+    );
   }
 }

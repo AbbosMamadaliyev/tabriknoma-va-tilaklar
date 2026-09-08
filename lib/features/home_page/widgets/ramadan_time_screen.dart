@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tabriklar/assets/constants/app_images.dart';
 import 'package:tabriklar/domain/service/ad_helper.dart';
+import 'package:tabriklar/features/components/google_ads_widget.dart';
 import 'package:tabriklar/utils/analytics_service.dart';
 import 'package:tabriklar/utils/extensions.dart';
 
@@ -15,22 +13,10 @@ class RamadanTimeScreen extends StatefulWidget {
 }
 
 class _RamadanTimeScreenState extends State<RamadanTimeScreen> {
-  BannerAd? _bannerAd;
-
   @override
   void initState() {
-    if (Platform.isAndroid) {
-      _bannerAd = BannerAd(
-        adUnitId: AdHelper.ramadanTimesBannerId,
-        request: const AdRequest(),
-        size: const AdSize(width: 375, height: 64),
-        listener: AdHelper.listener,
-      )..load();
-    }
-
-    AnalyticsService.logEvent(name: AnalyticsKeys.ramadanTimes);
-
     super.initState();
+    AnalyticsService.logEvent(name: AnalyticsKeys.ramadanTimes);
   }
 
   @override
@@ -55,12 +41,12 @@ class _RamadanTimeScreenState extends State<RamadanTimeScreen> {
             ),
           ),
           const Spacer(),
-          _bannerAd == null
-              ? const SizedBox()
-              : SizedBox(
-                  height: 64,
-                  child: AdWidget(ad: _bannerAd!),
-                )
+          SafeArea(
+            top: false,
+            child: Center(
+              child: GoogleAdsWidget(adUnitId: AdHelper.ramadanTimesBannerId),
+            ),
+          ),
         ],
       ),
     );

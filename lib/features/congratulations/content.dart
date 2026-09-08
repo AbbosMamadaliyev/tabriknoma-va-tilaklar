@@ -6,6 +6,8 @@ import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
+import 'package:tabriklar/domain/service/ad_helper.dart';
+import 'package:tabriklar/features/components/google_ads_widget.dart';
 import 'package:tabriklar/utils/analytics_service.dart';
 import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
@@ -18,6 +20,9 @@ class ContentBirthday extends StatefulWidget {
 
 class _ContentBirthdayState extends State<ContentBirthday> {
   String _textLink = '';
+
+  /// Standard banner height (AdSize.banner).
+  static const double _bannerHeight = 50;
 
   RateMyApp rateMyApp = RateMyApp(
     preferencesPrefix: 'rateMyApp_',
@@ -32,7 +37,8 @@ class _ContentBirthdayState extends State<ContentBirthday> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await rateMyApp.init();
-      rateMyApp.showRateDialog(
+      rateMyApp
+          .showRateDialog(
         title: context.locale.languageCode == 'uz'
             ? 'Dastur haqida fikringizni bildiring'
             : context.locale.languageCode == 'ru'
@@ -48,7 +54,8 @@ class _ContentBirthdayState extends State<ContentBirthday> {
           print('Clicked on "$button" button');
           return false;
         },
-      ).then((_) {
+      )
+          .then((_) {
         AnalyticsService.logEvent(name: AnalyticsKeys.rateApp);
       });
     });
@@ -65,6 +72,7 @@ class _ContentBirthdayState extends State<ContentBirthday> {
     var tableName = args['tableName'];
 
     final congratulation = context.watch<DbServiceProver>().congratulations[id - 1];
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +86,6 @@ class _ContentBirthdayState extends State<ContentBirthday> {
           IconButton(
             onPressed: () {
               final service = context.read<DbServiceProver>();
-              // set button
               service
                   .setFavourite(
                 model: CongratulationsModel(
@@ -102,45 +109,64 @@ class _ContentBirthdayState extends State<ContentBirthday> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/back1.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-            child: Text(
-              congratulation.content,
-              style: TextStyle(
-                height: 1.3,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
+      body: Column(
+        children: [
+          Expanded(
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/back1.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 80.h),
+                child: Text(
+                  congratulation.content,
+                  style: TextStyle(
+                    height: 1.3,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+          ColoredBox(
+            color: Colors.white,
+            child: SafeArea(
+              top: false,
+              child: SizedBox(
+                height: _bannerHeight,
+                width: double.infinity,
+                child: Center(
+                  child: GoogleAdsWidget(adUnitId: AdHelper.contentScreenBannerId),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          _textLink = congratulation.content;
-          await Share.share(_textLink).then((value) {
-            if (value.status == ShareResultStatus.success) {
-              AnalyticsService.logEvent(name: AnalyticsKeys.sendContent);
-            }
-          });
-        },
-        backgroundColor: Colors.white,
-        child: Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.skewY(0.0)..rotateZ(-0.3),
-          child: const Icon(
-            Icons.send,
-            color: AppColors.green,
+      floatingActionButton: Padding(
+        // Share button stays above the fixed bottom banner.
+        padding: EdgeInsets.only(bottom: _bannerHeight + bottomInset),
+        child: FloatingActionButton(
+          onPressed: () async {
+            _textLink = congratulation.content;
+            await Share.share(_textLink).then((value) {
+              if (value.status == ShareResultStatus.success) {
+                AnalyticsService.logEvent(name: AnalyticsKeys.sendContent);
+              }
+            });
+          },
+          backgroundColor: Colors.white,
+          child: Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.skewY(0.0)..rotateZ(-0.3),
+            child: const Icon(
+              Icons.send,
+              color: AppColors.green,
+            ),
           ),
         ),
       ),
