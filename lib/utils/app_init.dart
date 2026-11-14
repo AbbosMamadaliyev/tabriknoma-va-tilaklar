@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,16 +10,11 @@ import 'package:logging/logging.dart';
 import 'package:tabriklar/core/data/singletons/service_locator.dart';
 import 'package:tabriklar/firebase_options.dart';
 
-import '../../domain/service/connectivity.dart';
-
 class AppInit {
-  static bool? connectivityX;
-
   AppInit._();
 
   static Future<AppInit> get create async {
     await appInitialized();
-    connectivityX ??= await ConnectivityX().create();
     return AppInit._();
   }
 
@@ -26,7 +23,12 @@ class AppInit {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    await MobileAds.instance.initialize();
+    // Not awaited on purpose. Nothing is drawn until runApp() (Flutter holds
+    // back the first Android frame until its own first frame), and this Future
+    // can take up to 30 s on a slow network. Waiting here caused
+    // "Input dispatching timed out (No focused window)" ANRs. Ad requests made
+    // before it completes are queued by the SDK (no mediation adapters here).
+    unawaited(MobileAds.instance.initialize());
 
     /// Device Orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
