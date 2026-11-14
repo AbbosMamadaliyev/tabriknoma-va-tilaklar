@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabriklar/assets/colors/app_colors.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -19,18 +20,19 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-              child: Image(
-            image: AssetImage('assets/images/splash.png'),
-            height: 77,
-          ))
-        ],
+    return Scaffold(
+      backgroundColor: AppColors.surface,
+      // Matches the Android 12+ system splash (round icon, 160dp) so the
+      // hand-off from the native splash to Flutter is seamless.
+      body: Center(
+        child: ClipOval(
+          child: Image.asset(
+            'assets/images/app_icon.png',
+            width: 160,
+            height: 160,
+            filterQuality: FilterQuality.medium,
+          ),
+        ),
       ),
     );
   }

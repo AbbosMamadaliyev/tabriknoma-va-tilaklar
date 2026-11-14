@@ -1,14 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tabriklar/assets/colors/app_colors.dart';
+import 'package:tabriklar/core/ui/app_ui.dart';
+import 'package:tabriklar/core/ui/reading_scaffold.dart';
 import 'package:tabriklar/domain/models/happy_model.dart';
 import 'package:tabriklar/domain/service/ad_helper.dart';
-import 'package:tabriklar/features/components/google_ads_widget.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:tabriklar/utils/analytics_service.dart';
+import 'package:tabriklar/view_models/categor_model_provider/categor_model_provider.dart';
 import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
 class ContentBirthday extends StatefulWidget {
@@ -20,9 +21,6 @@ class ContentBirthday extends StatefulWidget {
 
 class _ContentBirthdayState extends State<ContentBirthday> {
   String _textLink = '';
-
-  /// Standard banner height (AdSize.banner).
-  static const double _bannerHeight = 50;
 
   RateMyApp rateMyApp = RateMyApp(
     preferencesPrefix: 'rateMyApp_',
@@ -65,111 +63,67 @@ class _ContentBirthdayState extends State<ContentBirthday> {
     super.initState();
   }
 
+  String _title(Object? categoryIndex) {
+    final categories = context.read<CategoryModelProvider>().categories(context.locale.languageCode);
+    if (categoryIndex is int && categoryIndex >= 0 && categoryIndex < categories.length) {
+      return categories[categoryIndex].category;
+    }
+    return context.locale.languageCode == 'uz'
+        ? 'Tilak, tabrik, she’r'
+        : context.locale.languageCode == 'ru'
+            ? 'Поздравления, стихи'
+            : 'Congratulations, poems';
+  }
+
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     var id = args['id'];
     var tableName = args['tableName'];
 
-    final congratulation = context.watch<DbServiceProver>().congratulations[id - 1];
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
+    final congratulations = context.watch<DbServiceProver>().congratulations;
+    final congratulation = congratulations.firstWhere(
+      (c) => c.id == id,
+      orElse: () => congratulations[id - 1],
+    );
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: context.locale.languageCode == 'uz'
-            ? const Text('Tilak, tabrik, sher')
-            : context.locale.languageCode == 'ru'
-                ? const Text('Поздравления, стихи')
-                : const Text('Congratulations, poems'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              final service = context.read<DbServiceProver>();
-              service
-                  .setFavourite(
-                model: CongratulationsModel(
-                  id: congratulation.id,
-                  content: congratulation.content,
-                  favourite: congratulation.favourite == 0 ? 1 : 0,
-                ),
-                tableName: tableName,
-              )
-                  .then((value) {
-                setState(() {
-                  congratulation.favourite == 0 ? congratulation.favourite = 1 : congratulation.favourite = 0;
-                });
-              });
-            },
-            icon: Icon(
-              congratulation.favourite == 0 ? Icons.favorite_border : Icons.favorite,
-              color: Colors.redAccent,
-              size: 28,
-            ),
+    return ReadingScaffold(
+      title: _title(args['categoryIndex']),
+      content: congratulation.content,
+      bannerAdUnitId: AdHelper.contentScreenBannerId,
+      saved: congratulation.favourite == 1,
+      onToggleSave: () {
+        final service = context.read<DbServiceProver>();
+        final willSave = congratulation.favourite == 0;
+        service
+            .setFavourite(
+          model: CongratulationsModel(
+            id: congratulation.id,
+            content: congratulation.content,
+            favourite: congratulation.favourite == 0 ? 1 : 0,
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/back1.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 80.h),
-                child: Text(
-                  congratulation.content,
-                  style: TextStyle(
-                    height: 1.3,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          ColoredBox(
-            color: Colors.white,
-            child: SafeArea(
-              top: false,
-              child: SizedBox(
-                height: _bannerHeight,
-                width: double.infinity,
-                child: Center(
-                  child: GoogleAdsWidget(adUnitId: AdHelper.contentScreenBannerId),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: Padding(
-        // Share button stays above the fixed bottom banner.
-        padding: EdgeInsets.only(bottom: _bannerHeight + bottomInset),
-        child: FloatingActionButton(
-          onPressed: () async {
-            _textLink = congratulation.content;
-            await Share.share(_textLink).then((value) {
-              if (value.status == ShareResultStatus.success) {
-                AnalyticsService.logEvent(name: AnalyticsKeys.sendContent);
-              }
-            });
-          },
-          backgroundColor: Colors.white,
-          child: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.skewY(0.0)..rotateZ(-0.3),
-            child: const Icon(
-              Icons.send,
-              color: AppColors.green,
-            ),
-          ),
-        ),
-      ),
+          tableName: tableName,
+        )
+            .then((value) {
+          if (!mounted) return;
+          setState(() {
+            congratulation.favourite == 0 ? congratulation.favourite = 1 : congratulation.favourite = 0;
+          });
+          showAppSnack(
+            context,
+            willSave ? LocaleKeys.added_to_saved.tr() : LocaleKeys.removed_from_saved.tr(),
+            icon: willSave ? Icons.bookmark_added_rounded : Icons.bookmark_remove_rounded,
+          );
+        });
+      },
+      onShare: () async {
+        _textLink = congratulation.content;
+        await Share.share(_textLink).then((value) {
+          if (value.status == ShareResultStatus.success) {
+            AnalyticsService.logEvent(name: AnalyticsKeys.sendContent);
+          }
+        });
+      },
     );
   }
 }

@@ -15,4 +15,5 @@ class StorageKeys {
   static const socektSessionId = 'sessionId';
   static const language = 'language';
   static const currentAppVersion = 'currentAppVersion';
+  static const readingFontSize = 'readingFontSize';
 }

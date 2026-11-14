@@ -1,133 +1,136 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:tabriklar/assets/colors/app_colors.dart';
+import 'package:tabriklar/assets/themes/theme.dart';
+import 'package:tabriklar/core/ui/app_ui.dart';
 import 'package:tabriklar/domain/service/ad_helper.dart';
 import 'package:tabriklar/features/components/google_ads_widget.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
 import 'package:tabriklar/main_navigation.dart';
 import 'package:tabriklar/view_models/get_data_from_firebase/get_images_provider.dart';
 
-class CategorPhotosWidget extends StatefulWidget {
+class CategorPhotosWidget extends StatelessWidget {
   const CategorPhotosWidget({Key? key}) : super(key: key);
 
-  @override
-  _CategorPhotosWidgetState createState() => _CategorPhotosWidgetState();
-}
+  static const List<String> imgs = ['0', 'juma1', 'new_year'];
 
-class _CategorPhotosWidgetState extends State<CategorPhotosWidget> {
-  List<String> imgs = ['0', 'juma1', 'new_year'];
-  bool startAnimation = false;
+  static const List<String> categories = [
+    'Tug‘ilgan kun tabriklari rasmda',
+    'Juma ayyomi tabriklari',
+    'Aralash tabrik va tilaklar',
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        startAnimation = true;
-      });
-    });
+  // category name in russian language
+  static const List<String> ruCategories = [
+    'С днём рождения в картинках',
+    'Поздравления с Джумой',
+    'Разные поздравления и пожелания',
+  ];
+
+  static const List<String> enCategories = [
+    'Birthday greetings in pictures',
+    'Greetings for Juma',
+    'Various greetings and wishes',
+  ];
+
+  String _title(BuildContext context, int index) {
+    final lang = context.locale.languageCode;
+    return lang == 'uz'
+        ? categories[index]
+        : lang == 'ru'
+            ? ruCategories[index]
+            : enCategories[index];
   }
 
   @override
   Widget build(BuildContext context) {
-    // MainScreen uses extendBody: true + floating nav (~56 + 24 margin).
-    final bottomInset = MediaQuery.paddingOf(context).bottom + 96;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.only(bottom: bottomInset),
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          if (index == 3) {
-            return Padding(
-              padding: EdgeInsets.only(top: 16.h),
-              child: Center(
-                child: GoogleAdsWidget(adUnitId: AdHelper.bannerAdUnitId),
-              ),
-            );
-          }
-          return Padding(
-            padding: EdgeInsets.only(top: 16.h),
-            child: InkWell(
-              onTap: () {
-                context.read<ImageListProvider>().getDataFromRtDb(index + 1);
-                Navigator.of(context).pushNamed(MainNavigationNames.photos);
-              },
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: (300 + index * 100)),
-                transform: Matrix4.translationValues(startAnimation ? 0 : 340.w, 0, 0),
-                curve: Curves.easeInOut,
-                height: 156.h,
-                width: 340.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22.r),
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/${imgs[index]}.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: CustomChildContainerGradient(index: index),
-              ),
-            ),
-          );
-        },
-      ),
+    return ListView(
+      padding: const EdgeInsets.only(bottom: AppSpace.xxl),
+      children: [
+        ScreenHeader(
+          title: LocaleKeys.photos.tr(),
+          subtitle: LocaleKeys.congratulations_via_pic.tr(),
+        ),
+        for (var index = 0; index < imgs.length; index++) ...[
+          _PhotoCategoryCard(
+            image: 'assets/images/${imgs[index]}.jpg',
+            title: _title(context, index),
+            onTap: () {
+              context.read<ImageListProvider>().loadCategory(index + 1);
+              Navigator.of(context).pushNamed(MainNavigationNames.photos);
+            },
+          ),
+          const SizedBox(height: AppSpace.m),
+        ],
+        const SizedBox(height: AppSpace.s),
+        Center(
+          child: GoogleAdsWidget(adUnitId: AdHelper.bannerAdUnitId),
+        ),
+      ],
     );
   }
 }
 
-class CustomChildContainerGradient extends StatelessWidget {
-  final int index;
+class _PhotoCategoryCard extends StatelessWidget {
+  const _PhotoCategoryCard({required this.image, required this.title, required this.onTap});
 
-  CustomChildContainerGradient({Key? key, required this.index}) : super(key: key);
-
-  final List<String> categories = [
-    'Tug\'ulgan kun tabriklari rasmda',
-    'Juma ayyomi tabriklari',
-    'Aralash tabrik va tilaklar'
-  ];
-
-  // category name in russian language
-  final List<String> ruCategories = [
-    'С днемрождения в картинках',
-    'Поздравления с Juma',
-    'Разные поздравления и пожелания'
-  ];
-
-  final List<String> enCategories = [
-    'Birthday greetings in pictures',
-    'Greetings for Juma',
-    'Various greetings and wishes'
-  ];
+  final String image;
+  final String title;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.bottomLeft,
-      padding: EdgeInsets.only(left: 24.w, bottom: 16.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22.r),
-        gradient: const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black12,
-            Colors.black,
-          ],
-        ),
-      ),
-      child: Text(
-        context.locale.languageCode == 'uz'
-            ? categories[index]
-            : context.locale.languageCode == 'ru'
-                ? ruCategories[index]
-                : enCategories[index],
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.sp,
-          fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpace.l),
+      child: Material(
+        color: AppColors.fill,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: SizedBox(
+            height: 176,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Ink.image(image: AssetImage(image), fit: BoxFit.cover, child: const SizedBox.expand()),
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.35, 1],
+                      colors: [Color(0x00000000), Color(0xB3000000)],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: AppSpace.l,
+                  right: AppSpace.l,
+                  bottom: AppSpace.l,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: AppText.headline.copyWith(color: Colors.white, fontSize: 18),
+                        ),
+                      ),
+                      const SizedBox(width: AppSpace.s),
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                        child: const Icon(Icons.arrow_forward_rounded, size: 20, color: AppColors.ink),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

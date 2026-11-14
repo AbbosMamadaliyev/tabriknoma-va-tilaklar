@@ -1,33 +1,49 @@
 import 'dart:ui';
 
-// Main palette (http://www.color-blindness.com/color-name-hue/).
+/// Design tokens.
+///
+/// Rules (keep them — they are what makes the app look like one product):
+/// * One accent: [accent] (brand green from the launcher icon). It is spent on
+///   the primary action, the active state and nothing else.
+/// * One grey family: warm greys ([ink] → [line] → [fill]).
+/// * Surfaces are white; grouped content sits on [fill].
 class AppColors {
-  static const _white = Color(0xffFFFFFF);
-  static const _black = Color(0xff000000);
-  static const _pumpkin = Color(0xffFF831B);
-  static const _pumpkin50 = Color(0x80FF831B);
-  static const _malachite = Color(0xff13B541);
-  static const _scarlet = Color(0xffFF3300);
-  static const _mayaBlue = Color(0xff4DAAF8);
-  static const _lemon = Color(0xffFFE81B);
-  static const _darkGray = Color(0xffA3A3A3);
-  static const _gainsboro = Color(0xffDADADA);
-  static const _whiteSmoke = Color(0xffF2F2F2);
-  static const _whiteSmoke2 = Color(0xffF7F7F7);
-  static const _suvaGrey = Color(0xff8F8F8F);
+  AppColors._();
 
-  static const white = _white;
-  static const black = _black;
-  static const orange = _pumpkin;
-  static const orange50 = _pumpkin50;
-  static const red = _scarlet;
-  static const blue = _mayaBlue;
-  static const green = _malachite;
-  static const yellow = _lemon;
-  static const grey1 = _suvaGrey; //8E8E8E
-  static const grey2 = _darkGray;
-  static const grey3 = _gainsboro; //D9D9D9 //E0E0E0
-  static const grey4 = _whiteSmoke;
-  static const grey5 = _whiteSmoke2;
-  static const navBarColor = Color(0xffe1ecf3);
+  // ── Brand ────────────────────────────────────────────────────────────────
+  /// Brand green, slightly deepened from the icon (#378842) for AA contrast.
+  static const accent = Color(0xff2F7F3C);
+  static const accentPressed = Color(0xff256A31);
+  static const accentSoft = Color(0xffEAF4EC);
+
+  /// Saffron of the logo mark. Logo only — never a UI accent.
+  static const brandSaffron = Color(0xffF4A11A);
+
+  // ── Warm neutrals ────────────────────────────────────────────────────────
+  static const ink = Color(0xff1C1B18);
+  static const inkSecondary = Color(0xff6B6862);
+  static const inkTertiary = Color(0xff9E9B93);
+  static const line = Color(0xffE9E7E1);
+  static const fill = Color(0xffF5F4F0);
+  static const fillPressed = Color(0xffECEAE4);
+  static const surface = Color(0xffFFFFFF);
+
+  // ── Semantic ─────────────────────────────────────────────────────────────
+  static const danger = Color(0xffC4362B);
+
+  // ── Legacy names (still referenced by older shared widgets) ──────────────
+  static const white = surface;
+  static const black = Color(0xff000000);
+  static const orange = Color(0xffFF831B);
+  static const orange50 = Color(0x80FF831B);
+  static const red = danger;
+  static const blue = accent;
+  static const green = accent;
+  static const yellow = Color(0xffFFE81B);
+  static const grey1 = inkTertiary;
+  static const grey2 = Color(0xffB5B2AA);
+  static const grey3 = line;
+  static const grey4 = fill;
+  static const grey5 = Color(0xffF9F8F5);
+  static const navBarColor = accentSoft;
 }

@@ -1,9 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tabriklar/assets/colors/app_colors.dart';
+import 'package:tabriklar/core/ui/app_ui.dart';
+import 'package:tabriklar/core/ui/reading_scaffold.dart';
+import 'package:tabriklar/domain/models/happy_model.dart';
+import 'package:tabriklar/generated/locale_keys.g.dart';
+import 'package:tabriklar/view_models/database/db_service_provider.dart';
 
-// ignore: must_be_immutable
 class ReadingSavedContent extends StatefulWidget {
   const ReadingSavedContent({Key? key}) : super(key: key);
 
@@ -19,34 +23,43 @@ class _ReadingSavedContentState extends State<ReadingSavedContent> {
     var args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     var index = args['index'];
     final favoriteCongratulations = args['favoriteCongratulations'];
+    final List<String>? tableNames = args['tableNames'];
 
-    final congratulation = favoriteCongratulations[index];
+    final CongratulationsModel congratulation = favoriteCongratulations[index];
+    final String? tableName = tableNames != null && index < tableNames.length ? tableNames[index] : null;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text('Tilak, tabrik, sher'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-          child: Text(
-            congratulation.content,
-            style: TextStyle(height: 1.3, fontSize: 18.sp),
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          _textLink = congratulation.content;
-          await Share.share(_textLink);
-        },
-        backgroundColor: Colors.white,
-        child: const Icon(
-          Icons.send,
-          color: AppColors.green,
-        ),
-      ),
+    return ReadingScaffold(
+      title: LocaleKeys.saved.tr(),
+      content: congratulation.content,
+      saved: tableName == null ? null : congratulation.favourite == 1,
+      onToggleSave: tableName == null
+          ? null
+          : () {
+              final willSave = congratulation.favourite == 0;
+              context
+                  .read<DbServiceProver>()
+                  .setFavourite(
+                    model: CongratulationsModel(
+                      id: congratulation.id,
+                      content: congratulation.content,
+                      favourite: willSave ? 1 : 0,
+                    ),
+                    tableName: tableName,
+                  )
+                  .then((_) {
+                if (!mounted) return;
+                setState(() => congratulation.favourite = willSave ? 1 : 0);
+                showAppSnack(
+                  context,
+                  willSave ? LocaleKeys.added_to_saved.tr() : LocaleKeys.removed_from_saved.tr(),
+                  icon: willSave ? Icons.bookmark_added_rounded : Icons.bookmark_remove_rounded,
+                );
+              });
+            },
+      onShare: () async {
+        _textLink = congratulation.content;
+        await Share.share(_textLink);
+      },
     );
   }
 }

@@ -25,8 +25,5 @@ class AnalyticsKeys {
   static const String sendContent = 'send_content';
   static const String sendPhoto = 'send_photo';
   static const String moreScreen = 'more_screen';
-  static const String projectsScreen = 'projects_screen';
-  static const String installApp = 'install_app';
-  static const String launchChannel = 'launch_channel';
   static const String ramadanTimes = 'ramadan_times';
 }

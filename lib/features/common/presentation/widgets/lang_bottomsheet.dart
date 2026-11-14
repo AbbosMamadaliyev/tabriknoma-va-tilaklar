@@ -1,13 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
 import 'package:tabriklar/assets/constants/app_icons.dart';
-import 'package:tabriklar/features/common/presentation/widgets/common_button.dart';
-import 'package:tabriklar/features/common/presentation/widgets/common_scale_animation.dart';
-import 'package:tabriklar/features/common/presentation/widgets/language_title.dart';
+import 'package:tabriklar/assets/themes/theme.dart';
+import 'package:tabriklar/core/ui/app_ui.dart';
 import 'package:tabriklar/generated/locale_keys.g.dart';
-import 'package:tabriklar/utils/extensions.dart';
 
 class LanguageBottomSheet extends StatefulWidget {
   final String locale;
@@ -42,79 +41,90 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 20, bottom: 20),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
-        ),
-        color: AppColors.white,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Text(
-                LocaleKeys.choose_lang.tr(),
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 24,
-                    ),
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(AppSpace.l, 0, AppSpace.l, AppSpace.l),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpace.s),
+              child: Text(LocaleKeys.choose_lang.tr(), style: AppText.title),
+            ),
+            const SizedBox(height: AppSpace.l),
+            for (var index = 0; index < titleList.length; index++) ...[
+              _LanguageOption(
+                flag: img[index],
+                title: titleList[index],
+                selected: selectedLanguage == index,
+                onTap: () {
+                  if (selectedLanguage == index) return;
+                  HapticFeedback.selectionClick();
+                  setState(() => selectedLanguage = index);
+                },
               ),
-              const Spacer(),
-              ButtonScaleAnimation(
-                child: SvgPicture.asset(
-                  AppIcons.xBack,
-                  width: 24,
-                  height: 24,
-                  colorFilter: const ColorFilter.mode(AppColors.grey2, BlendMode.dstIn),
-                ),
-                onTap: () => Navigator.of(context).pop(),
+              if (index != titleList.length - 1) const SizedBox(height: AppSpace.xs),
+            ],
+            const SizedBox(height: AppSpace.xl),
+            PrimaryButton(
+              label: LocaleKeys.confirm.tr(),
+              onPressed: () {
+                widget.onTapX(
+                  selectedLanguage == 0
+                      ? 'uz'
+                      : selectedLanguage == 1
+                          ? 'ru'
+                          : 'en',
+                );
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageOption extends StatelessWidget {
+  const _LanguageOption({
+    required this.flag,
+    required this.title,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String flag;
+  final String title;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: selected ? AppColors.accentSoft : Colors.transparent,
+      borderRadius: BorderRadius.circular(AppRadius.tile),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpace.m, vertical: 14),
+          child: Row(
+            children: [
+              ClipOval(child: SvgPicture.asset(flag, width: 28, height: 28, fit: BoxFit.cover)),
+              const SizedBox(width: AppSpace.m),
+              Expanded(child: Text(title, style: AppText.bodyStrong)),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150),
+                child: selected
+                    ? const Icon(Icons.check_circle_rounded, key: ValueKey(true), color: AppColors.accent)
+                    : const Icon(Icons.circle_outlined, key: ValueKey(false), color: AppColors.line),
               ),
             ],
           ),
-          const SizedBox(height: 15),
-          Container(height: 1, color: AppColors.grey4),
-          ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              separatorBuilder: (context, index) => Container(height: 1, color: AppColors.grey4),
-              itemCount: titleList.length,
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) => LanguageTitle(
-                    isHaveImage: true,
-                    img: img[index],
-                    onTap: (value) {
-                      selectedLanguage = index;
-                      setState(() {});
-                    },
-                    title: titleList[index],
-                    value: selectedLanguage,
-                    groupValue: index,
-                  )),
-          CommonButton(
-            hasGradient: true,
-            color: AppColors.blue,
-            margin: EdgeInsets.only(top: 20, bottom: MediaQuery.of(context).padding.bottom),
-            onTap: () {
-              widget.onTapX(
-                selectedLanguage == 0
-                    ? 'uz'
-                    : selectedLanguage == 1
-                        ? 'ru'
-                        : 'en',
-              );
-              Navigator.pop(context);
-            },
-            child: Text(
-              LocaleKeys.confirm.tr(),
-              style: context.textTheme.headlineMedium!
-                  .copyWith(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.white),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

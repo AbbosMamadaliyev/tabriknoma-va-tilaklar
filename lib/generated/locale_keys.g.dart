@@ -23,11 +23,26 @@ abstract class  LocaleKeys {
   static const update = 'update';
   static const cancel = 'cancel';
   static const update_app_info = 'update_app_info';
-  static const useful_projects = 'useful_projects';
-  static const useful_for_you = 'useful_for_you';
-  static const useful_channels = 'useful_channels';
-  static const useful = 'useful';
-  static const install = 'install';
-  static const transition = 'transition';
+  static const more = 'more';
+  static const categories = 'categories';
+  static const for_today = 'for_today';
+  static const search = 'search';
+  static const nothing_found = 'nothing_found';
+  static const nothing_found_hint = 'nothing_found_hint';
+  static const saved_empty_title = 'saved_empty_title';
+  static const saved_empty_desc = 'saved_empty_desc';
+  static const save = 'save';
+  static const saved_one = 'saved_one';
+  static const copy = 'copy';
+  static const copied = 'copied';
+  static const text_size = 'text_size';
+  static const share_app = 'share_app';
+  static const version = 'version';
+  static const no_internet = 'no_internet';
+  static const image_load_error = 'image_load_error';
+  static const removed_from_saved = 'removed_from_saved';
+  static const added_to_saved = 'added_to_saved';
+  static const app_settings = 'app_settings';
+  static const app_name = 'app_name';
 
 }

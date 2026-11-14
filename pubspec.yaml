@@ -97,6 +97,9 @@ flutter:
     - assets/ru_happy.db
     - assets/en_happy.db
     - assets/images/
+    - assets/photos/birthday/
+    - assets/photos/juma/
+    - assets/photos/aralash/
     - assets/icons/
     - assets/translations/
   #   - images/a_dot_burr.jpeg

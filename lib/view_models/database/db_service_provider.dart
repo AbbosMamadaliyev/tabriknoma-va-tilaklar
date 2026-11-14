@@ -80,8 +80,8 @@ class DbServiceProver extends ChangeNotifier {
     });
   }
 
-  getFavoriteData(String tableName) {
-    _getFavouriteWords(query, tableName).then((value) {
+  Future<void> getFavoriteData(String tableName) {
+    return _getFavouriteWords(query, tableName).then((value) {
       switch (tableName) {
         case 'birthday':
           birthdays.clear();

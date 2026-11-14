@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tabriklar/assets/themes/theme.dart';
 import 'package:tabriklar/assets/constants/app_images.dart';
+import 'package:tabriklar/core/ui/app_ui.dart';
 import 'package:tabriklar/domain/service/ad_helper.dart';
-import 'package:tabriklar/features/components/google_ads_widget.dart';
 import 'package:tabriklar/utils/analytics_service.dart';
-import 'package:tabriklar/utils/extensions.dart';
 
 class RamadanTimeScreen extends StatefulWidget {
   const RamadanTimeScreen({super.key});
@@ -23,32 +23,26 @@ class _RamadanTimeScreenState extends State<RamadanTimeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ramazon vaqtlari 2025"),
-        backgroundColor: Colors.white,
+        title: const Text('Ramazon vaqtlari 2025'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(AppSpace.l, AppSpace.s, AppSpace.l, AppSpace.xxl),
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(AppImages.ramadanTimes),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Manba: t.me/muslimuzportal',
-              style: context.textTheme.displaySmall!.copyWith(fontSize: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.card),
+            child: InteractiveViewer(
+              maxScale: 4,
+              child: Image.asset(AppImages.ramadanTimes),
             ),
           ),
-          const Spacer(),
-          SafeArea(
-            top: false,
-            child: Center(
-              child: GoogleAdsWidget(adUnitId: AdHelper.ramadanTimesBannerId),
-            ),
+          const SizedBox(height: AppSpace.m),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpace.xs),
+            child: Text('Manba: t.me/muslimuzportal', style: AppText.caption),
           ),
         ],
       ),
+      bottomNavigationBar: BottomBannerBar(adUnitId: AdHelper.ramadanTimesBannerId),
     );
   }
 }

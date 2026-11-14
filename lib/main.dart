@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:tabriklar/assets/themes/theme.dart';
 import 'package:tabriklar/core/data/singletons/storage.dart';
 import 'package:tabriklar/features/common/presentation/bloc/internet_bloc/internet_bloc.dart';
 import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
@@ -21,6 +23,8 @@ void main() {
   runZonedGuarded(
     () async {
       await AppInit.create;
+
+      SystemChrome.setSystemUIOverlayStyle(AppTheme.systemOverlay);
 
       runApp(
         EasyLocalization(
@@ -79,11 +83,13 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
-            theme: ThemeData(
-              appBarTheme: const AppBarTheme(
-                elevation: 0,
-                color: Color(0xff1c901e),
-              ),
+            theme: AppTheme.light(),
+            themeMode: ThemeMode.light,
+            // Respect the user's font size setting, but keep layouts intact.
+            builder: (context, child) => MediaQuery.withClampedTextScaling(
+              minScaleFactor: 0.9,
+              maxScaleFactor: 1.25,
+              child: child ?? const SizedBox.shrink(),
             ),
             initialRoute: mainNavigation.initialRoute(),
             routes: mainNavigation.routes,

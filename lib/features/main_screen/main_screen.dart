@@ -1,17 +1,16 @@
-// import 'package:app_version_update/app_version_update.dart';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabriklar/assets/colors/app_colors.dart';
+import 'package:tabriklar/assets/themes/theme.dart';
+import 'package:tabriklar/core/ui/app_ui.dart';
 import 'package:tabriklar/core/utils/notification_service.dart';
 import 'package:tabriklar/features/common/presentation/bloc/internet_bloc/internet_bloc.dart';
 import 'package:tabriklar/features/common/presentation/bloc/version/version_bloc.dart';
-import 'package:tabriklar/features/components/background_home_page.dart';
 import 'package:tabriklar/features/home_page/home_page.dart';
 import 'package:tabriklar/features/main_screen/widgets/nav_bar.dart';
 import 'package:tabriklar/features/more/presentation/more_screen.dart';
@@ -63,11 +62,11 @@ class _MainScreenState extends State<MainScreen> {
           oldState.isConnected != newState.isConnected || oldState.isCheck != newState.isCheck,
       listener: (context, state) {
         if (!state.isConnected) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Internet bilan aloqa yo\'q'),
-              backgroundColor: Colors.red,
-            ),
+          showAppSnack(
+            context,
+            LocaleKeys.no_internet.tr(),
+            error: true,
+            icon: Icons.wifi_off_rounded,
           );
         }
       },
@@ -82,34 +81,28 @@ class _MainScreenState extends State<MainScreen> {
             checkerUpdate(state.appVersion.required);
           }
         },
-        child: Scaffold(
-          extendBody: true,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: AppColors.white,
-            title: Text(
-              'Tabrik va tilaklar',
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-              ),
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: AppTheme.systemOverlay,
+          child: Scaffold(
+            backgroundColor: AppColors.surface,
+            body: SafeArea(
+              bottom: false,
+              child: sectionIndex == 0
+                  ? const HomePageBody()
+                  : sectionIndex == 1
+                      ? const CategorPhotosWidget()
+                      : const MoreFunctionsScreen(),
             ),
-            centerTitle: true,
-          ),
-          body: BackgroundHomePage(
-            child: sectionIndex == 0
-                ? const HomePageBody()
-                : sectionIndex == 1
-                    ? const CategorPhotosWidget()
-                    : const MoreFunctionsScreen(),
-          ),
-          bottomNavigationBar: NavigationBarWidget(
-            onTabChanged: (int index) {
-              setState(() {
-                sectionIndex = index;
-              });
-            },
-            sectionIndex: sectionIndex,
+            bottomNavigationBar: NavigationBarWidget(
+              onTabChanged: (int index) {
+                if (index == sectionIndex) return;
+                HapticFeedback.selectionClick();
+                setState(() {
+                  sectionIndex = index;
+                });
+              },
+              sectionIndex: sectionIndex,
+            ),
           ),
         ),
       ),
@@ -123,60 +116,49 @@ class _MainScreenState extends State<MainScreen> {
       barrierDismissible: !isRequired,
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Tabrik va tilaklar'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                LocaleKeys.update_app_info.tr(),
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
+        return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 28),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const IconTile(icon: Icons.system_update_rounded, size: 56, iconSize: 28),
+                const SizedBox(height: AppSpace.l),
+                Text(LocaleKeys.app_name.tr(), style: AppText.title, textAlign: TextAlign.center),
+                const SizedBox(height: AppSpace.s),
+                Text(
+                  LocaleKeys.update_app_info.tr(),
+                  textAlign: TextAlign.center,
+                  style: AppText.body.copyWith(color: AppColors.inkSecondary, fontSize: 15),
                 ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {
-                  await launchUrlString(playStoreLink, mode: LaunchMode.externalApplication);
-                },
-                child: Text(LocaleKeys.update.tr()),
-              ),
-              if (!isRequired) ...{
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(LocaleKeys.cancel.tr()),
+                const SizedBox(height: AppSpace.xxl),
+                SizedBox(
+                  width: double.infinity,
+                  child: PrimaryButton(
+                    label: LocaleKeys.update.tr(),
+                    onPressed: () async {
+                      await launchUrlString(playStoreLink, mode: LaunchMode.externalApplication);
+                    },
+                  ),
                 ),
-              },
-            ],
+                if (!isRequired) ...[
+                  const SizedBox(height: AppSpace.s),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: TextButton.styleFrom(foregroundColor: AppColors.inkSecondary),
+                      child: Text(LocaleKeys.cancel.tr()),
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         );
-      },
-    );
-  }
-
-  CurvedNavigationBar customNavigationBar() {
-    return CurvedNavigationBar(
-      items: const [
-        Icon(Icons.home, color: Colors.white),
-        Icon(Icons.photo_library_outlined, color: Colors.white),
-      ],
-      index: 0,
-      height: 56.h,
-      animationCurve: Curves.easeInOut,
-      animationDuration: const Duration(milliseconds: 600),
-      color: const Color(0xff1c901e),
-      backgroundColor: const Color(0xff1e027a),
-      buttonBackgroundColor: Colors.transparent,
-      onTap: (index) {
-        setState(() {
-          sectionIndex = index;
-        });
-        print('ss: $sectionIndex');
       },
     );
   }

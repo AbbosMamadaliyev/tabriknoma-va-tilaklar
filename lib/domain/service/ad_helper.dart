@@ -11,7 +11,6 @@ class AdHelper {
   static final Map<String, int> _sessionEntryCounts = {};
 
   static const String placementContent = 'content';
-  static const String placementUseful = 'useful';
 
   /// First entry in this session → skip ad. Later entries → show.
   static bool shouldShowInterstitialThisSession(String placement) {
@@ -78,16 +77,6 @@ class AdHelper {
     }
     if (Platform.isIOS) {
       return 'ca-app-pub-3940256099942544/4411468910';
-    }
-    throw UnsupportedError('Unsupported platform');
-  }
-
-  static String get usefulInterstitialAdUnitId {
-    if (_useTestAds) {
-      return 'ca-app-pub-3940256099942544/1033173712';
-    }
-    if (Platform.isAndroid) {
-      return 'ca-app-pub-8830329988183040/3890737029';
     }
     throw UnsupportedError('Unsupported platform');
   }
